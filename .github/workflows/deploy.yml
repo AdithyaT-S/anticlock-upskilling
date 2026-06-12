@@ -1,0 +1,111 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  # ── 1. Full CI (reuses ci.yml) ────────────────────────────────
+  ci:
+    uses: ./.github/workflows/ci.yml
+
+  # ── 2. Run DB migrations ──────────────────────────────────────
+  migrate:
+    name: DB migrations (${{ vars.DB_PROVIDER }})
+    runs-on: ubuntu-latest
+    needs: [ci]
+    environment: production
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20, cache: npm }
+      - run: npm ci
+
+      # ── Supabase path ────────────────────────────────────────
+      - name: Migrate (Supabase)
+        if: vars.DB_PROVIDER == 'supabase'
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          SUPABASE_DB_PASSWORD:  ${{ secrets.SUPABASE_DB_PASSWORD }}
+        run: |
+          npx supabase link --project-ref ${{ vars.SUPABASE_PROJECT_REF }}
+          npx supabase db push
+
+      # ── RDS / Neon / Railway / local path ────────────────────
+      - name: Migrate (pg-compatible)
+        if: vars.DB_PROVIDER != 'supabase'
+        env:
+          DB_PROVIDER:  ${{ vars.DB_PROVIDER }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: npx tsx scripts/migrate.ts
+
+  # ── 3. Deploy app ────────────────────────────────────────────
+  deploy:
+    name: Deploy app
+    runs-on: ubuntu-latest
+    needs: [migrate]
+    environment:
+      name: production
+      url: ${{ steps.deploy.outputs.url }}
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20, cache: npm }
+      - run: npm ci
+
+      # ── Vercel ───────────────────────────────────────────────
+      - name: Deploy to Vercel
+        if: vars.DEPLOY_TARGET == 'vercel'
+        id: deploy
+        env:
+          VERCEL_TOKEN:      ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID:     ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        run: |
+          URL=$(npx vercel --prod --token "$VERCEL_TOKEN" \
+            --build-env DB_PROVIDER=${{ vars.DB_PROVIDER }} \
+            --build-env NEXT_PUBLIC_APP_URL=${{ vars.NEXT_PUBLIC_APP_URL }})
+          echo "url=$URL" >> $GITHUB_OUTPUT
+
+      # ── AWS ECS (when using RDS) ──────────────────────────────
+      - name: Deploy to ECS
+        if: vars.DEPLOY_TARGET == 'ecs'
+        env:
+          AWS_ACCESS_KEY_ID:     ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION:            ${{ vars.AWS_REGION }}
+        run: |
+          aws ecs update-service \
+            --cluster freshcrm-prod \
+            --service freshcrm-app \
+            --force-new-deployment \
+            --region $AWS_REGION
+
+      # ── Railway ───────────────────────────────────────────────
+      - name: Deploy to Railway
+        if: vars.DEPLOY_TARGET == 'railway'
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+        run: npx railway up --service freshcrm-app
+
+  # ── 4. Smoke test ────────────────────────────────────────────
+  smoke:
+    name: Smoke test
+    runs-on: ubuntu-latest
+    needs: [deploy]
+    steps:
+      - name: Health check
+        run: |
+          STATUS=$(curl -sf -o /dev/null -w "%{http_code}" \
+            "${{ vars.NEXT_PUBLIC_APP_URL }}/api/health" || echo "000")
+          if [ "$STATUS" != "200" ]; then
+            echo "Health check failed: HTTP $STATUS"
+            exit 1
+          fi
+          echo "✓ Production healthy: HTTP $STATUS"

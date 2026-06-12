@@ -1,0 +1,69 @@
+name: Auto-merge
+
+on:
+  pull_request_review:
+    types: [submitted]
+
+jobs:
+  auto-merge:
+    name: Squash-merge when approved + all checks green
+    runs-on: ubuntu-latest
+    if: github.event.review.state == 'APPROVED'
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = context.payload.pull_request
+            const { owner, repo } = context.repo
+
+            // Gather all reviews — need at least one human approval
+            const { data: reviews } = await github.rest.pulls.listReviews({
+              owner, repo, pull_number: pr.number
+            })
+            const humanApproved = reviews.some(
+              r => r.state === 'APPROVED' && r.user.type !== 'Bot'
+            )
+
+            // All required status checks must be green
+            const { data: { check_runs } } = await github.rest.checks.listForRef({
+              owner, repo, ref: pr.head.sha
+            })
+            const required = ['Type check', 'Lint', 'Unit tests + coverage', 'Next.js build', 'E2E tests (Playwright)']
+            const allGreen = required.every(name => {
+              const run = check_runs.find(c => c.name === name)
+              return run && run.status === 'completed' && run.conclusion === 'success'
+            })
+
+            core.info(`Human approved: ${humanApproved}, All checks green: ${allGreen}`)
+
+            if (!humanApproved || !allGreen) {
+              core.info('Conditions not met — skipping auto-merge')
+              return
+            }
+
+            await github.rest.pulls.merge({
+              owner, repo,
+              pull_number: pr.number,
+              merge_method: 'squash',
+              commit_title: pr.title,
+              commit_message: [
+                pr.body ?? '',
+                '',
+                `PR #${pr.number} by @${pr.user.login}`
+              ].join('\n')
+            })
+
+            // Remove stale labels
+            for (const label of ['needs-review', 'approved']) {
+              await github.rest.issues.removeLabel({
+                owner, repo,
+                issue_number: pr.number,
+                name: label
+              }).catch(() => {})
+            }
+
+            core.info(`✓ Auto-merged PR #${pr.number}: ${pr.title}`)
