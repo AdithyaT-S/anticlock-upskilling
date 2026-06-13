@@ -94,6 +94,8 @@ Command definitions: `.claude/commands/`
 ## Module Build Workflow (One Module At A Time)
 
 ```
+git checkout main               ← always sync main first
+git pull origin main            ← pull latest before branching
 git checkout -b feat/{module}   ← ALWAYS start on a feature branch — never commit modules to main
     ↓
 /create-spec {Module}           → writes specs/{module}/SPEC.md

@@ -117,7 +117,6 @@ describe('signUp action', () => {
   it('sets role=admin server-side regardless of input (BR-02)', async () => {
     vi.mocked(query).mockResolvedValueOnce([])
     let insertSql = ''
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     vi.mocked(transaction).mockImplementationOnce(async (fn: any) => {
       await fn(async (sql: string) => {
         insertSql += sql
