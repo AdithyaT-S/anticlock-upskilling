@@ -1,3 +1,7 @@
+---
+model: haiku
+---
+
 # Agent: Test Writer
 
 Writes Vitest unit tests and Playwright E2E tests from SPEC ACs.

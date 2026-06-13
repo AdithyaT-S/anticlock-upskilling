@@ -138,20 +138,22 @@ Status: ⬜ Todo | 🔄 In Progress | ✅ Done | 🔒 Blocked
 
 ---
 
-## Layer 7 — Module 5: Leads ⬜ After Contacts
+## Layer 7 — Module 5: Leads 🔄 In Progress
 
-**Spec:** ⬜ Run `/create-spec Leads` after Contacts is merged
+**Spec:** ✅ `specs/leads/SPEC.md`
+**Review:** ✅ `review-reports/leads.md` — APPROVED 2026-06-13
 **Stitch screen:** CRM Leads List & Detail (`219d7f6e5ccb4e80864c3ec66dc0743a`)
+**Branch:** `feat/leads`
 
 | Layer | Task | Status |
 |-------|------|--------|
 | DB | `leads` table + RLS | ✅ in migrations |
-| Backend | `src/lib/validations/lead.ts` | 🔒 |
-| Backend | `src/lib/actions/leads.ts` — CRUD + convert to deal | 🔒 |
-| Frontend | `src/app/(dashboard)/leads/page.tsx` + detail panel | 🔒 |
-| Frontend | `src/app/(dashboard)/leads/columns.tsx` | 🔒 |
-| Tests | Unit + E2E | 🔒 |
-| DevOps | `/commit` + `/create-pr` | 🔒 |
+| Backend | `src/lib/validations/lead.ts` | ✅ |
+| Backend | `src/lib/actions/leads.ts` — CRUD + convert to deal | ✅ |
+| Frontend | `src/app/(dashboard)/leads/page.tsx` + detail panel | ✅ |
+| Frontend | `src/app/(dashboard)/leads/columns.tsx` | ✅ |
+| Tests | Unit (45/45) + E2E (10 flows) | ✅ |
+| DevOps | `/commit` + `/create-pr` | ⬜ |
 
 ---
 

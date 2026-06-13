@@ -1,3 +1,7 @@
+---
+model: haiku
+---
+
 # Command: /generate-tests
 
 **Usage**: `/generate-tests {ModuleName}`

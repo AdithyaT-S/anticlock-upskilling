@@ -1,3 +1,7 @@
+---
+model: sonnet
+---
+
 # Agent: Actions Builder
 
 Builds Zod schemas and server actions. Never touches UI.

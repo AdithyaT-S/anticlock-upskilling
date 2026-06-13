@@ -21,6 +21,7 @@ interface DataTableProps<T> {
   page: number
   onPageChange: (page: number) => void
   onSortChange?: (column: string, dir: 'asc' | 'desc') => void
+  onRowClick?: (row: T) => void
   isLoading?: boolean
   emptyState?: ReactNode
 }
@@ -32,6 +33,7 @@ export function DataTable<T>({
   page,
   onPageChange,
   onSortChange,
+  onRowClick,
   isLoading = false,
   emptyState,
 }: DataTableProps<T>) {
@@ -123,7 +125,11 @@ export function DataTable<T>({
               </TableRow>
             ) : (
               table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id} className="h-[52px] hover:bg-gray-50 transition-colors">
+                <TableRow
+                  key={row.id}
+                  className={`h-[52px] hover:bg-gray-50 transition-colors ${onRowClick ? 'cursor-pointer' : ''}`}
+                  onClick={onRowClick ? () => onRowClick(row.original) : undefined}
+                >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id} className="px-4">
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}

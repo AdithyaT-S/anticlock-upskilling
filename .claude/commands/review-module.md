@@ -1,3 +1,7 @@
+---
+model: haiku
+---
+
 # Command: /review-module
 
 **Usage**: `/review-module {ModuleName}`

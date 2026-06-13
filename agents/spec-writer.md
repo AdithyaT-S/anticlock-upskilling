@@ -1,3 +1,7 @@
+---
+model: sonnet
+---
+
 # Agent: Product Agent
 
 Produces `specs/{module-kebab}/SPEC.md`. Every section filled. No placeholders.

@@ -1,3 +1,7 @@
+---
+model: sonnet
+---
+
 # Command: /create-spec
 
 **Usage**: `/create-spec {ModuleName}`

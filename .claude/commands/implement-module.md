@@ -1,3 +1,7 @@
+---
+model: sonnet
+---
+
 # Command: /implement-module
 
 **Usage**: `/implement-module {ModuleName}`
