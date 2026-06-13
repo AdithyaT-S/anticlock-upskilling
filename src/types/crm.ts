@@ -73,22 +73,35 @@ export interface PipelineStage {
   pipeline_id: string
   name: string
   position: number
+  probability: number
   created_at: string
 }
 
 export interface Deal {
   id: string
   org_id: string
-  title: string
-  value: number | null
-  currency: string
-  stage: DealStage
+  name: string
   pipeline_id: string
+  stage_id: string
+  value: number
+  currency: string
+  close_date: string | null
   contact_id: string | null
   owner_id: string | null
-  expected_close_date: string | null
+  status: 'open' | 'won' | 'lost'
+  lost_reason: string | null
   created_at: string
   updated_at: string
+}
+
+export interface DealWithRelations extends Deal {
+  stage_name: string
+  stage_position: number
+  contact_first_name: string | null
+  contact_last_name: string | null
+  contact_company: string | null
+  owner_name: string | null
+  owner_avatar_url: string | null
 }
 
 export interface Ticket {

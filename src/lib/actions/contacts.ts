@@ -10,7 +10,8 @@ import {
   contactSearchSchema,
   csvImportRowSchema,
 } from '@/lib/validations/contact'
-import type { Contact, Activity, ActivityType } from '@/types/crm'
+import type { Contact } from '@/types/crm'
+import { type DbActivityRow, mapToActivity } from '@/lib/utils/activity'
 
 // ── Extended types ──────────────────────────────────────────────────
 
@@ -27,47 +28,18 @@ export interface OrgMember {
   avatar_url: string | null
 }
 
+export interface ContactOption {
+  id: string
+  first_name: string
+  last_name: string
+  email: string | null
+  company: string | null
+}
+
 export interface ImportResult {
   imported: number
   skipped: number
   errors: { row: number; message: string }[]
-}
-
-// ── Helpers ─────────────────────────────────────────────────────────
-
-const ACTIVITY_TITLES: Record<string, string> = {
-  call:    'Call logged',
-  email:   'Email sent',
-  note:    'Note added',
-  task:    'Task',
-  meeting: 'Meeting',
-}
-
-interface DbActivityRow {
-  id: string
-  type: string
-  body: string | null
-  due_at: string | null
-  done_at: string | null
-  owner_id: string | null
-  created_at: string
-}
-
-function mapToActivity(row: DbActivityRow, orgId: string, contactId: string): Activity {
-  return {
-    id:          row.id,
-    org_id:      orgId,
-    type:        row.type as ActivityType,
-    title:       ACTIVITY_TITLES[row.type] ?? row.type,
-    description: row.body ?? null,
-    contact_id:  contactId,
-    lead_id:     null,
-    deal_id:     null,
-    ticket_id:   null,
-    user_id:     row.owner_id ?? '',
-    occurred_at: row.created_at,
-    created_at:  row.created_at,
-  }
 }
 
 // ── getContacts ─────────────────────────────────────────────────────
@@ -181,7 +153,7 @@ export async function getContact(id: string) {
     ),
   ])
 
-  const activities = dbActivities.map((row) => mapToActivity(row, user.orgId, id))
+  const activities = dbActivities.map((row) => mapToActivity(row, user.orgId, { contact_id: id }))
   const dealsCount = parseInt(dealsRows[0]?.count ?? '0', 10)
 
   return { data: { contact, activities, dealsCount } }

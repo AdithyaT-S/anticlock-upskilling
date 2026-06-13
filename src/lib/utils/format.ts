@@ -29,6 +29,34 @@ export function truncate(str: string, maxLength: number): string {
   return str.slice(0, maxLength) + '…'
 }
 
+/**
+ * Initials from first+last name, or from a full-name string (single arg).
+ * getInitials('Jane', 'Doe') → 'JD'
+ * getInitials('Jane Doe')    → 'JD'
+ */
+export function getInitials(firstName: string | null, lastName?: string | null): string {
+  if (!firstName) return '?'
+  if (lastName !== undefined) {
+    return `${firstName[0] ?? ''}${lastName?.[0] ?? ''}`.toUpperCase()
+  }
+  return firstName.split(' ').map((n) => n[0]).filter(Boolean).slice(0, 2).join('').toUpperCase()
+}
+
+/** Compact currency for dashboard summaries: 1_500_000 → ₹15L, 75_000 → ₹75K */
+export function formatCurrencyShort(value: number, currency = 'INR'): string {
+  const symbol = currency === 'INR' ? '₹' : currency === 'USD' ? '$' : currency === 'EUR' ? '€' : currency
+  if (value >= 1_000_000) return `${symbol}${(value / 1_000_000).toFixed(1)}M`
+  if (value >= 1_000)     return `${symbol}${(value / 1_000).toFixed(0)}K`
+  return `${symbol}${value}`
+}
+
+/** Tailwind color class for a lead/deal score (0-100). Only returns the color — callers add their own font weight. */
+export function scoreColorClass(score: number): string {
+  if (score >= 70) return 'text-green-600'
+  if (score >= 40) return 'text-yellow-600'
+  return 'text-red-600'
+}
+
 export function formatRelativeTime(date: string | Date): string {
   const now = new Date()
   const then = new Date(date)

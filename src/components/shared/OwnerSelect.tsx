@@ -15,6 +15,7 @@ import {
 import { Button } from '@/components/ui/button'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { cn } from '@/lib/utils/cn'
+import { getInitials } from '@/lib/utils/format'
 
 interface OwnerUser {
   id: string
@@ -31,14 +32,6 @@ interface OwnerSelectProps {
   disabled?: boolean
 }
 
-function getInitials(name: string): string {
-  return name
-    .split(' ')
-    .map((n) => n[0])
-    .slice(0, 2)
-    .join('')
-    .toUpperCase()
-}
 
 export function OwnerSelect({
   value,
