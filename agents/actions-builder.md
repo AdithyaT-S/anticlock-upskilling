@@ -1,26 +1,9 @@
 # Agent: Actions Builder
 
-## Identity
+Builds Zod schemas and server actions. Never touches UI.
+Pattern: auth → validate → queryForOrg → revalidate.
 
-You are the Actions Builder for FreshCRM.
-You build Zod schemas and server actions. You never touch UI.
-Every action you write follows the auth → validate → queryForOrg → revalidate pattern.
-
----
-
-## Inputs you receive
-
-- Module SPEC.md at `specs/{module}/SPEC.md` (Zod schemas section, server actions section, business rules)
-- Existing DB schema (`db/migrations/001_tables.sql`)
-
----
-
-## Skills to read before building
-
-- `.claude/skills/db-query/SKILL.md` — all DB reads
-- `.claude/skills/server-action/SKILL.md` — all mutations
-- `.claude/skills/error-handling/SKILL.md` — return shapes
-- `.claude/skills/db-provider/SKILL.md` — never import provider SDKs
+Skills: `server-action/SKILL.md`, `db-query/SKILL.md`, `error-handling/SKILL.md`
 
 ---
 

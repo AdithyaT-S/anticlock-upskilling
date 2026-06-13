@@ -20,12 +20,9 @@ We are now building the full application on top of that foundation.
 |-------|--------|------|
 | BRD | ✅ Done | `docs/BRD.md` |
 | Stitch Designs | ✅ Done | `docs/Stitch Instructions.md` — 8 screens ready |
-| CLAUDE.md | ✅ Done | This file |
-| Skill files | ✅ Done | `src/lib/db/index.ts` |
-| Commands | ✅ Done | `.claude/commands/` — 4 commands |
-| Agents | ✅ Done | `agents/` — 4 agents |
+| Foundation | ✅ Done | DB abstraction, auth, commands, agents, skills |
 | App scaffold | ⬜ Todo | `npx create-next-app` not yet run |
-| Module build loop | ⬜ Todo | One module at a time: spec → build → test → PR |
+| Module build loop | ⬜ Todo | Read `TASKS.md` for current progress |
 
 ---
 
@@ -80,14 +77,9 @@ Command definitions: `.claude/commands/`
 
 ---
 
-## Agents — Loaded by Commands Automatically
+## Agents
 
-| Agent | File | Role |
-|-------|------|------|
-| Spec Writer | `agents/spec-writer.md` | Writes SPEC.md — user stories, ACs, permissions |
-| UI Builder | `agents/ui-builder.md` | Builds pages + components matching Stitch screen |
-| Actions Builder | `agents/actions-builder.md` | Builds Zod schemas + server actions |
-| Test Writer | `agents/test-writer.md` | Writes Vitest + Playwright tests from ACs |
+`agents/spec-writer.md` · `agents/ui-builder.md` · `agents/actions-builder.md` · `agents/test-writer.md`
 
 ---
 
