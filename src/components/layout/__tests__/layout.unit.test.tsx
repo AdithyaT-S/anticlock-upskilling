@@ -41,7 +41,7 @@ describe('Sidebar', () => {
 
   // AC-01: All nav items rendered
   it('renders all 8 nav items (Dashboard, Contacts, Leads, Deals, Tickets, Activities, Reports, Settings)', () => {
-    render(<Sidebar user={testUser} />)
+    render(<Sidebar />)
     expect(screen.getByText('Dashboard')).toBeInTheDocument()
     expect(screen.getByText('Contacts')).toBeInTheDocument()
     expect(screen.getByText('Leads')).toBeInTheDocument()
@@ -55,7 +55,7 @@ describe('Sidebar', () => {
   // AC-02: Active class on matching nav item
   it('applies active styles to Contacts when pathname is /contacts', () => {
     mockPathname.mockReturnValue('/contacts')
-    render(<Sidebar user={testUser} />)
+    render(<Sidebar />)
     const contactsLink = screen.getByText('Contacts').closest('a')
     expect(contactsLink?.className).toMatch(/bg-indigo-50/)
     expect(contactsLink?.className).toMatch(/text-indigo-600/)
@@ -64,7 +64,7 @@ describe('Sidebar', () => {
   // AC-02: Inactive items do not have active styles
   it('does not apply active styles to non-current nav items', () => {
     mockPathname.mockReturnValue('/contacts')
-    render(<Sidebar user={testUser} />)
+    render(<Sidebar />)
     const dashboardLink = screen.getByText('Dashboard').closest('a')
     expect(dashboardLink?.className).not.toMatch(/bg-indigo-50/)
   })
@@ -72,7 +72,7 @@ describe('Sidebar', () => {
   // AC-03: Root path — only Dashboard highlighted, not others
   it('highlights only Dashboard on pathname /', () => {
     mockPathname.mockReturnValue('/')
-    render(<Sidebar user={testUser} />)
+    render(<Sidebar />)
 
     const dashboardLink = screen.getByText('Dashboard').closest('a')
     const contactsLink = screen.getByText('Contacts').closest('a')
@@ -84,7 +84,7 @@ describe('Sidebar', () => {
   // BR-03: Exact match for root — /contacts should NOT highlight Dashboard
   it('does not highlight Dashboard when pathname is /contacts (exact match enforced)', () => {
     mockPathname.mockReturnValue('/contacts')
-    render(<Sidebar user={testUser} />)
+    render(<Sidebar />)
     const dashboardLink = screen.getByText('Dashboard').closest('a')
     expect(dashboardLink?.className).not.toMatch(/bg-indigo-50/)
   })
@@ -92,22 +92,15 @@ describe('Sidebar', () => {
   // AC-08: Sub-path /contacts/123 highlights Contacts
   it('highlights Contacts when pathname is /contacts/123 (startsWith match)', () => {
     mockPathname.mockReturnValue('/contacts/abc-123')
-    render(<Sidebar user={testUser} />)
+    render(<Sidebar />)
     const contactsLink = screen.getByText('Contacts').closest('a')
     expect(contactsLink?.className).toMatch(/bg-indigo-50/)
-  })
-
-  // AC-04: User name displayed in sidebar
-  it('displays the logged-in user name and role', () => {
-    render(<Sidebar user={testUser} />)
-    expect(screen.getByText('Alex Rivera')).toBeInTheDocument()
-    expect(screen.getByText('admin')).toBeInTheDocument()
   })
 
   // AC-05: Sign out button calls signOut
   it('calls signOut with /login callbackUrl when sign out is clicked', async () => {
     const user = userEvent.setup()
-    render(<Sidebar user={testUser} />)
+    render(<Sidebar />)
     await user.click(screen.getByText('Sign out'))
     expect(mockSignOut).toHaveBeenCalledWith({ callbackUrl: '/login' })
   })

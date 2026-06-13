@@ -26,11 +26,7 @@ const NAV_ITEMS = [
   { href: '/reports', label: 'Reports', icon: BarChart2 },
 ]
 
-interface SidebarProps {
-  user: { name: string; email: string; role: string }
-}
-
-export function Sidebar({ user }: SidebarProps) {
+export function Sidebar() {
   const pathname = usePathname()
 
   function isActive(href: string, exact?: boolean) {
@@ -78,11 +74,6 @@ export function Sidebar({ user }: SidebarProps) {
           <Settings size={18} />
           Settings
         </Link>
-
-        <div className="px-3 py-2">
-          <p className="text-sm font-medium text-gray-900 truncate">{user.name}</p>
-          <p className="text-xs text-gray-500 capitalize">{user.role}</p>
-        </div>
 
         <button
           onClick={() => signOut({ callbackUrl: '/login' })}
