@@ -18,7 +18,9 @@ You do not design databases. You do not specify API endpoints. You write specs.
 
 ## Output
 
-A completed `SPEC.md` for the module. Every section filled. No placeholders.
+A completed `SPEC.md` at `specs/{module-kebab}/SPEC.md`. Every section filled. No placeholders.
+
+**Never place SPEC.md inside `src/app/` — specs always live under `specs/` at the project root.**
 
 ---
 

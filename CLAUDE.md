@@ -92,7 +92,9 @@ Command definitions: `.claude/commands/`
 ## Module Build Workflow (One Module At A Time)
 
 ```
-/create-spec {Module}
+git checkout -b feat/{module}   ← ALWAYS start on a feature branch — never commit modules to main
+    ↓
+/create-spec {Module}           → writes specs/{module}/SPEC.md
     ↓ review SPEC.md
 /implement-module {Module}
     ↓
@@ -102,8 +104,8 @@ Command definitions: `.claude/commands/`
     ↓ fix any issues
 /commit
     ↓
-/create-pr
-    ↓ AI review + human approval → auto-merge
+/create-pr                      ← CI runs on PR: typecheck → lint → tests → build
+    ↓ AI review + human approval → auto-merge to main
 ```
 
 **Never spec all modules upfront.** Each module's spec depends on what was built before it.

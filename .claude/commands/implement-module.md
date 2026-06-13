@@ -19,7 +19,7 @@ Does NOT write tests — run `/generate-tests {ModuleName}` after this.
 - Read `TASKS.md` — confirm module is not 🔒 blocked
 - Mark the module's Build column as 🔄 In Progress in `TASKS.md`
 Verify these exist before writing any code:
-- `src/app/(dashboard)/{module}/SPEC.md` — must exist
+- `specs/{module}/SPEC.md` — must exist (never inside src/app/)
 - `CLAUDE.md` — read it fully
 - `src/lib/db/index.ts` — confirm DB abstraction is present
 
@@ -27,7 +27,7 @@ If SPEC.md is missing: stop and say "Run /create-spec {ModuleName} first."
 
 ### Step 1 — Read all context (load once, use throughout)
 Read these files — do not re-read mid-implementation:
-- `src/app/(dashboard)/{module}/SPEC.md`
+- `specs/{module}/SPEC.md`
 - `agents/actions-builder.md`
 - `agents/ui-builder.md`
 - `.claude/skills/db-query/SKILL.md`

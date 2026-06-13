@@ -16,7 +16,7 @@ unit tests (Vitest) and E2E tests (Playwright). Every AC gets a test. No AC is u
 
 ### Step 0 — Pre-flight
 Verify these exist:
-- `src/app/(dashboard)/{module}/SPEC.md`
+- `specs/{module}/SPEC.md`
 - `src/lib/validations/{module}.ts`
 - `src/lib/actions/{module}.ts`
 
@@ -24,7 +24,7 @@ If actions or validations are missing: stop and say "Run /implement-module {Modu
 
 ### Step 1 — Read context
 Read (load once):
-- `src/app/(dashboard)/{module}/SPEC.md` — acceptance criteria + test cases sections
+- `specs/{module}/SPEC.md` — acceptance criteria + test cases sections
 - `src/lib/validations/{module}.ts` — schema to test
 - `src/lib/actions/{module}.ts` — actions to test
 - `agents/test-writer.md`

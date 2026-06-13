@@ -28,7 +28,9 @@ Does NOT generate any code — spec only.
 
 ### Step 2 — Generate SPEC.md
 Using the Product Agent rules and Stitch screen context, produce:
-`src/app/(dashboard)/{module-kebab}/SPEC.md`
+`specs/{module-kebab}/SPEC.md`
+
+Never place SPEC.md inside `src/app/` — all specs live under `specs/` at the project root.
 
 The SPEC.md must include all sections — no placeholders:
 1. What this module does (1 paragraph)
@@ -49,7 +51,7 @@ The SPEC.md must include all sections — no placeholders:
 ### Step 3 — Summary
 Print:
 ```
-✅ Spec created: src/app/(dashboard)/{module}/SPEC.md
+✅ Spec created: specs/{module}/SPEC.md
 
 Stitch screen used: {screen name} ({screen ID})
 Acceptance criteria: {count} ACs defined

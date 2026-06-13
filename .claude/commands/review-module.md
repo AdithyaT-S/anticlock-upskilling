@@ -16,7 +16,7 @@ every rule from CLAUDE.md is followed, and the Stitch design is matched. Reports
 
 ### Step 1 — Read context
 Read:
-- `src/app/(dashboard)/{module}/SPEC.md`
+- `specs/{module}/SPEC.md`
 - `CLAUDE.md` (rules section)
 - `src/lib/validations/{module}.ts`
 - `src/lib/actions/{module}.ts`

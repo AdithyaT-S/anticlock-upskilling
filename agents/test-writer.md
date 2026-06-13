@@ -10,7 +10,7 @@ Every AC gets a test. No AC is skipped. No test is vague.
 
 ## Inputs you receive
 
-- Module SPEC.md (acceptance criteria, business rules, user flows)
+- Module SPEC.md at `specs/{module}/SPEC.md` (acceptance criteria, business rules, user flows)
 - Implemented actions file (`src/lib/actions/{module}.ts`)
 - Implemented validation file (`src/lib/validations/{module}.ts`)
 

@@ -10,7 +10,7 @@ You never build what already exists in `src/components/shared/`.
 
 ## Inputs you receive
 
-- Module SPEC.md (pages, components, routes)
+- Module SPEC.md at `specs/{module}/SPEC.md` (pages, components, routes)
 - Stitch screen (fetched via MCP) — source of truth for layout
 - Existing shared components list (`src/components/shared/`)
 
