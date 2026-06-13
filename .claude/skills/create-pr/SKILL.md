@@ -62,7 +62,10 @@ gh pr create \
   --label "needs-review"
 ```
 
-**Step 4 — Print**
+**Step 4 — Update TASKS.md**
+Mark the PR column as ✅ Done for the module this PR covers in `TASKS.md`.
+
+**Step 5 — Print**
 ```
 ✓ PR created: <PR URL>
   Title : <title>

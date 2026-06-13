@@ -81,6 +81,11 @@ If all checks pass:
 ✅ APPROVED — run /create-pr to open a pull request
 ```
 
+### On approval — update TASKS.md
+- Mark PR column as ⬜ (ready to PR) for this module
+- Check if any 🔒 blocked modules are now unblocked — if so, change their Spec column from 🔒 to ⬜
+  Example: Contacts approved → unlock Leads Spec ⬜ and Tickets Spec ⬜
+
 ---
 
 ## Rules

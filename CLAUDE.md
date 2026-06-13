@@ -1,6 +1,7 @@
 # FreshCRM — Claude Code Master Context
 
 Read this file fully before doing anything in this project.
+Then read `TASKS.md` to understand current build progress and what's next.
 
 ---
 

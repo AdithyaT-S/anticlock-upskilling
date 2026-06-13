@@ -15,7 +15,9 @@ Does NOT write tests — run `/generate-tests {ModuleName}` after this.
 
 ## Steps
 
-### Step 0 — Pre-flight check
+### Step 0 — Pre-flight check + TASKS.md update
+- Read `TASKS.md` — confirm module is not 🔒 blocked
+- Mark the module's Build column as 🔄 In Progress in `TASKS.md`
 Verify these exist before writing any code:
 - `src/app/(dashboard)/{module}/SPEC.md` — must exist
 - `CLAUDE.md` — read it fully
@@ -71,7 +73,10 @@ Match Stitch screen layout exactly. Use shared components — never build new on
 ### Step 6 — TypeScript types
 Produce: `src/types/crm.ts` (add new types, never overwrite existing)
 
-### Step 7 — Summary
+### Step 7 — Update TASKS.md
+- Mark Build column as ✅ Done for this module in `TASKS.md`
+
+### Step 8 — Summary
 ```
 ✅ Implementation complete: {ModuleName}
 

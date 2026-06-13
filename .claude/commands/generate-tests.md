@@ -62,7 +62,10 @@ Always use the auth fixture:
 import { test, expect } from '@/tests/fixtures/auth'
 ```
 
-### Step 4 — Summary
+### Step 4 — Update TASKS.md
+- Mark Tests column as ✅ Done for this module in `TASKS.md`
+
+### Step 5 — Summary
 ```
 ✅ Tests generated: {ModuleName}
 
