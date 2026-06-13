@@ -67,7 +67,7 @@ Status: ⬜ Todo | 🔄 In Progress | ✅ Done | 🔒 Blocked
 | Frontend | `src/app/(auth)/signup/page.tsx` | ✅ |
 | Tests | Unit tests — schemas + actions | ✅ |
 | Tests | E2E tests — signup, login, logout, redirect | ✅ |
-| DevOps | `/commit` + `/create-pr` | ⬜ |
+| DevOps | `/commit` + `/create-pr` | ✅ |
 
 ---
 
