@@ -35,9 +35,11 @@ export interface Contact {
   email: string | null
   phone: string | null
   company: string | null
-  title: string | null
+  job_title: string | null
+  lead_source: string | null
   owner_id: string | null
   tags: string[]
+  custom_fields: Record<string, unknown>
   created_at: string
   updated_at: string
 }

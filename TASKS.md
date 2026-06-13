@@ -90,11 +90,11 @@ Status: ⬜ Todo | 🔄 In Progress | ✅ Done | 🔒 Blocked
 
 ---
 
-## Layer 5 — Module 3: Shared Components 🔄 APPROVED — PENDING PR
+## Layer 5 — Module 3: Shared Components ✅ MERGED
 
 **Spec:** ✅ `specs/shared-components/SPEC.md`
 **Review:** ✅ `review-reports/shared-components.md` — APPROVED 2026-06-13
-**Branch:** `feat/shared-components`
+**Branch:** `feat/shared-components` — merged via PR #4 + #5
 
 | Layer | Task | Status |
 |-------|------|--------|
@@ -110,36 +110,37 @@ Status: ⬜ Todo | 🔄 In Progress | ✅ Done | 🔒 Blocked
 | Frontend | `ConfirmDialog.tsx` — destructive Dialog, disabled while pending | ✅ |
 | Frontend | `SearchInput.tsx` — debounced, clear button, Search icon | ✅ |
 | Tests | 67 unit tests — 23/23 ACs + all BRs covered | ✅ |
-| DevOps | `/commit` + `/create-pr` | ⬜ |
+| DevOps | `/commit` + `/create-pr` | ✅ |
 
 ---
 
-## Layer 6 — Module 4: Contacts ⬜ NEXT
+## Layer 6 — Module 4: Contacts 🔄 In Progress
 
-**Spec:** ⬜ Run `/create-spec Contacts`
+**Spec:** ✅ `specs/contacts/SPEC.md`
+**Review:** ✅ `review-reports/contacts.md` — APPROVED 2026-06-13
 **Stitch screens:** CRM Contacts List (`c744ca79a3b14fb49ca284b552f1c7f0`) + CRM Contact Detail (`b2ac0c027cd748b19c899e117c670912`)
-**Unblocked by:** Shared Components (Layer 5)
+**Branch:** `feat/contacts`
 
 | Layer | Task | Status |
 |-------|------|--------|
 | DB | `contacts` table + RLS | ✅ in migrations |
-| Backend | `src/lib/validations/contact.ts` — contactSchema | ⬜ |
-| Backend | `src/lib/actions/contacts.ts` — CRUD + CSV import | ⬜ |
-| Frontend | `src/app/(dashboard)/contacts/page.tsx` — list + search | ⬜ |
-| Frontend | `src/app/(dashboard)/contacts/columns.tsx` | ⬜ |
-| Frontend | `src/app/(dashboard)/contacts/new/page.tsx` | ⬜ |
-| Frontend | `src/app/(dashboard)/contacts/[id]/page.tsx` — detail + timeline | ⬜ |
-| Frontend | `src/app/(dashboard)/contacts/[id]/edit/page.tsx` | ⬜ |
-| Frontend | `error.tsx` + `loading.tsx` per route | ⬜ |
-| Tests | Unit tests — schema + actions | ⬜ |
-| Tests | E2E tests — create, search, detail, edit, delete | ⬜ |
+| Backend | `src/lib/validations/contact.ts` — contactSchema | ✅ |
+| Backend | `src/lib/actions/contacts.ts` — CRUD + CSV import | ✅ |
+| Frontend | `src/app/(dashboard)/contacts/page.tsx` — list + search | ✅ |
+| Frontend | `src/app/(dashboard)/contacts/columns.tsx` | ✅ |
+| Frontend | `src/app/(dashboard)/contacts/new/page.tsx` | ✅ |
+| Frontend | `src/app/(dashboard)/contacts/[id]/page.tsx` — detail + timeline | ✅ |
+| Frontend | `src/app/(dashboard)/contacts/[id]/edit/page.tsx` | ✅ |
+| Frontend | `error.tsx` + `loading.tsx` per route | ✅ |
+| Tests | Unit tests — schema + actions | ✅ |
+| Tests | E2E tests — create, search, detail, edit, delete | ✅ |
 | DevOps | `/commit` + `/create-pr` | ⬜ |
 
 ---
 
-## Layer 7 — Module 5: Leads 🔒 After Contacts
+## Layer 7 — Module 5: Leads ⬜ After Contacts
 
-**Spec:** 🔒 Run `/create-spec Leads` after Contacts is merged
+**Spec:** ⬜ Run `/create-spec Leads` after Contacts is merged
 **Stitch screen:** CRM Leads List & Detail (`219d7f6e5ccb4e80864c3ec66dc0743a`)
 
 | Layer | Task | Status |
@@ -175,9 +176,9 @@ Status: ⬜ Todo | 🔄 In Progress | ✅ Done | 🔒 Blocked
 
 ---
 
-## Layer 9 — Module 7: Tickets 🔒 After Contacts
+## Layer 9 — Module 7: Tickets ⬜ After Contacts
 
-**Spec:** 🔒 Run `/create-spec Tickets` after Contacts is merged
+**Spec:** ⬜ Run `/create-spec Tickets` after Contacts is merged
 **Stitch screen:** CRM Support Tickets (`fbfaee3f845f4b8596df70cce1f169ae`)
 
 | Layer | Task | Status |
@@ -259,8 +260,8 @@ Status: ⬜ Todo | 🔄 In Progress | ✅ Done | 🔒 Blocked
 |---|--------|--------|--------|
 | 1 | Auth | `feat/auth` | ✅ Merged to main |
 | 2 | Layout Shell | `feat/layout` | ✅ Merged to main |
-| 3 | Shared Components | `feat/shared-components` | 🔄 Approved — needs `/commit` + `/create-pr` |
-| 4 | Contacts | `feat/contacts` | ⬜ Next — run `/create-spec Contacts` |
+| 3 | Shared Components | `feat/shared-components` | ✅ Merged to main |
+| 4 | Contacts | `feat/contacts` | 🔄 In Progress — implementation done, needs tests + PR |
 | 5 | Leads | `feat/leads` | 🔒 After Contacts |
 | 6 | Deals + Kanban | `feat/deals` | 🔒 After Leads |
 | 7 | Tickets | `feat/tickets` | 🔒 After Contacts |
