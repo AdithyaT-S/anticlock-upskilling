@@ -12,9 +12,9 @@ Status: ⬜ Todo | 🔄 In Progress | ✅ Done | 🔒 Blocked
 | DB providers (pg, supabase, neon) | ✅ | `src/lib/db/providers/` |
 | DB types interface | ✅ | `src/lib/db/types.ts` |
 | Migration runner | ✅ | `scripts/migrate.ts` |
-| CRM schema — extensions + helpers | ✅ | `supabase/migrations/000_extensions.sql` |
-| CRM schema — all tables | ✅ | `supabase/migrations/001_tables.sql` |
-| CRM schema — RLS policies | ✅ | `supabase/migrations/002_rls.sql` |
+| CRM schema — extensions + helpers | ✅ | `db/migrations/000_extensions.sql` |
+| CRM schema — all tables | ✅ | `db/migrations/001_tables.sql` |
+| CRM schema — RLS policies | ✅ | `db/migrations/002_rls.sql` |
 | Terraform — prod RDS | ✅ | `infra/terraform/` |
 | CI pipeline | ✅ | `.github/workflows/ci.yml` |
 | AI PR review | ✅ | `.github/workflows/ai-pr-review.yml` |
@@ -41,7 +41,7 @@ Status: ⬜ Todo | 🔄 In Progress | ✅ Done | 🔒 Blocked
 | `src/lib/utils/format.ts` | ✅ | date, currency, truncate helpers |
 | `src/lib/utils/constants.ts` | ✅ | deal stages, lead sources, enums |
 | `src/types/crm.ts` | ✅ | shared TypeScript types |
-| `src/types/supabase.ts` | ✅ | generated DB types (stub — regenerate after Supabase setup) |
+| `src/types/db.ts` | ✅ | generated DB types stub (rename from supabase.ts) |
 | `src/tests/fixtures/auth.ts` | ✅ | Playwright auth fixture |
 | `src/tests/mocks/db.ts` | ✅ | Vitest DB mock |
 | `src/tests/helpers/factories.ts` | ✅ | test data factories |
@@ -57,19 +57,17 @@ Status: ⬜ Todo | 🔄 In Progress | ✅ Done | 🔒 Blocked
 |-------|------|--------|
 | DB | `orgs` table + RLS | ✅ in migrations |
 | DB | `users` table + RLS | ✅ in migrations |
-| Backend | `src/lib/supabase/client.ts` — browser singleton | ⬜ |
-| Backend | `src/lib/supabase/server.ts` — server client + `getAuthUser()` | ⬜ |
-| Backend | `src/lib/supabase/middleware.ts` — session refresh | ⬜ |
-| Backend | `src/lib/validations/auth.ts` — loginSchema + signupSchema | ⬜ |
-| Backend | `src/lib/actions/auth.ts` — signIn, signUp, signOut | ⬜ |
-| Backend | `src/middleware.ts` — route protection | ⬜ |
-| Frontend | `src/app/(auth)/layout.tsx` — centered card layout | ⬜ |
-| Frontend | `src/app/(auth)/login/page.tsx` | ⬜ |
-| Frontend | `src/app/(auth)/signup/page.tsx` | ⬜ |
-| Frontend | `src/app/(auth)/callback/route.ts` | ⬜ |
-| Tests | Unit tests — schemas + actions | ⬜ |
-| Tests | E2E tests — signup, login, logout, redirect | ⬜ |
-| DevOps | `/commit` + `/create-pr` | ⬜ |
+| Backend | `src/lib/auth.ts` — NextAuth config + `getAuthUser()` | ✅ |
+| Backend | `src/app/api/auth/[...nextauth]/route.ts` — NextAuth API handler | ✅ |
+| Backend | `src/lib/validations/auth.ts` — loginSchema + signupSchema | ✅ |
+| Backend | `src/lib/actions/auth.ts` — signUp server action | ✅ |
+| Backend | `src/middleware.ts` — route protection via NextAuth | ✅ |
+| Frontend | `src/app/(auth)/layout.tsx` — centered card layout | ✅ |
+| Frontend | `src/app/(auth)/login/page.tsx` | ✅ |
+| Frontend | `src/app/(auth)/signup/page.tsx` | ✅ |
+| Tests | Unit tests — schemas + actions | ✅ |
+| Tests | E2E tests — signup, login, logout, redirect | ✅ |
+| DevOps | `/commit` + `/create-pr` | ✅ |
 
 ---
 

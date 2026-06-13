@@ -66,7 +66,6 @@ export const neonProvider: DBProviderImpl = {
 
     await fn(capture) // collect
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const results = await sql.transaction(queries as any)
     return results as unknown as T
   },

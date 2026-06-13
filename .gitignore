@@ -46,5 +46,8 @@ coverage/
 playwright-report/
 test-results/
 
+# TypeScript build cache
+*.tsbuildinfo
+
 # Misc
 *.pem

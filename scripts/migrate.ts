@@ -11,7 +11,8 @@
  *   npm run db:migrate -- --status  — show applied vs pending
  *
  * Set DB_PROVIDER and DATABASE_URL in .env before running.
- * Supabase cloud uses `supabase db push` instead (see below).
+ * Default: DB_PROVIDER=local (Docker Postgres via docker-compose).
+ * Production: DB_PROVIDER=rds|neon|railway|supabase
  */
 
 import fs   from 'fs'
@@ -23,7 +24,7 @@ const provider = process.env.DB_PROVIDER ?? 'local'
 const dryRun   = process.argv.includes('--dry-run')
 const reset    = process.argv.includes('--reset')
 const status   = process.argv.includes('--status')
-const migrDir  = path.join(process.cwd(), 'supabase', 'migrations')
+const migrDir  = path.join(process.cwd(), 'db', 'migrations')
 
 const COLORS = {
   green:  (s: string) => `\x1b[32m${s}\x1b[0m`,

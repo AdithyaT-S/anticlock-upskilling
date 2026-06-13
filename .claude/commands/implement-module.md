@@ -15,7 +15,11 @@ Does NOT write tests — run `/generate-tests {ModuleName}` after this.
 
 ## Steps
 
-### Step 0 — Pre-flight check + TASKS.md update
+### Step 0 — Branch check + pre-flight
+Confirm you are on the correct feature branch (`feat/{module-kebab}`), not on `main`.
+If on main: run `git checkout main && git pull origin main && git checkout -b feat/{module-kebab}` first.
+
+Then:
 - Read `TASKS.md` — confirm module is not 🔒 blocked
 - Mark the module's Build column as 🔄 In Progress in `TASKS.md`
 Verify these exist before writing any code:

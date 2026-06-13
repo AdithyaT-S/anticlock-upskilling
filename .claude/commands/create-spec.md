@@ -15,7 +15,14 @@ Does NOT generate any code — spec only.
 
 ## Steps
 
-### Step 0 — Pre-flight
+### Step 0 — Branch setup + pre-flight
+Run these git commands before anything else:
+```bash
+git checkout main
+git pull origin main
+git checkout -b feat/{module-kebab}
+```
+Then:
 - Read `CLAUDE.md` for stack rules and module build order
 - Read `docs/BRD.md` for business requirements and personas
 - Read `agents/spec-writer.md` for spec writing rules
