@@ -33,15 +33,15 @@ Status: ⬜ Todo | 🔄 In Progress | ✅ Done | 🔒 Blocked
 | Task | Status | Notes |
 |------|--------|-------|
 | Next.js 14 scaffold (manual — folder was non-empty) | ✅ | `package.json`, `next.config.mjs`, `tsconfig.json`, `tailwind.config.ts` |
-| Install npm dependencies | ✅ | All deps + shadcn peer deps installed |
+| Install npm dependencies | ✅ | All deps + shadcn peer deps + `@tanstack/react-table` installed |
 | shadcn/ui init + components | ✅ | 20 components in `src/components/ui/` |
 | `.env.local` setup | ✅ | Local/Docker config |
-| `docker-compose.yml` | ✅ | Postgres 16 + Redis 7 (no local Postgres needed) |
+| `docker-compose.yml` | ✅ | Postgres 16 + Redis 7 |
 | `src/lib/utils/cn.ts` | ✅ | clsx + tailwind-merge helper |
 | `src/lib/utils/format.ts` | ✅ | date, currency, truncate helpers |
 | `src/lib/utils/constants.ts` | ✅ | deal stages, lead sources, enums |
 | `src/types/crm.ts` | ✅ | shared TypeScript types |
-| `src/types/db.ts` | ✅ | generated DB types stub (rename from supabase.ts) |
+| `src/types/db.ts` | ✅ | generated DB types stub |
 | `src/tests/fixtures/auth.ts` | ✅ | Playwright auth fixture |
 | `src/tests/mocks/db.ts` | ✅ | Vitest DB mock |
 | `src/tests/helpers/factories.ts` | ✅ | test data factories |
@@ -49,16 +49,17 @@ Status: ⬜ Todo | 🔄 In Progress | ✅ Done | 🔒 Blocked
 
 ---
 
-## Layer 3 — Module 1: Auth
+## Layer 3 — Module 1: Auth ✅ MERGED
 
 **Spec:** ✅ `specs/auth/SPEC.md`
+**Review:** ✅ `review-reports/auth.md`
 
 | Layer | Task | Status |
 |-------|------|--------|
 | DB | `orgs` table + RLS | ✅ in migrations |
 | DB | `users` table + RLS | ✅ in migrations |
 | Backend | `src/lib/auth.ts` — NextAuth config + `getAuthUser()` | ✅ |
-| Backend | `src/app/api/auth/[...nextauth]/route.ts` — NextAuth API handler | ✅ |
+| Backend | `src/app/api/auth/[...nextauth]/route.ts` | ✅ |
 | Backend | `src/lib/validations/auth.ts` — loginSchema + signupSchema | ✅ |
 | Backend | `src/lib/actions/auth.ts` — signUp server action | ✅ |
 | Backend | `src/middleware.ts` — route protection via NextAuth | ✅ |
@@ -67,13 +68,14 @@ Status: ⬜ Todo | 🔄 In Progress | ✅ Done | 🔒 Blocked
 | Frontend | `src/app/(auth)/signup/page.tsx` | ✅ |
 | Tests | Unit tests — schemas + actions | ✅ |
 | Tests | E2E tests — signup, login, logout, redirect | ✅ |
-| DevOps | `/commit` + `/create-pr` | ✅ |
+| DevOps | `/commit` + `/create-pr` + merged | ✅ |
 
 ---
 
-## Layer 4 — Module 2: Layout Shell
+## Layer 4 — Module 2: Layout Shell ✅ MERGED
 
 **Spec:** ✅ `specs/layout/SPEC.md`
+**Review:** ✅ `review-reports/layout.md`
 
 | Layer | Task | Status |
 |-------|------|--------|
@@ -84,43 +86,44 @@ Status: ⬜ Todo | 🔄 In Progress | ✅ Done | 🔒 Blocked
 | Frontend | `src/app/(dashboard)/page.tsx` — dashboard home (placeholder) | ✅ |
 | Tests | Unit tests — Sidebar active states, nav links | ✅ |
 | Tests | E2E tests — navigation between modules | ✅ |
-| DevOps | `/commit` + `/create-pr` | ⬜ |
+| DevOps | `/commit` + `/create-pr` + merged | ✅ |
 
 ---
 
-## Layer 5 — Module 3: Shared Components
+## Layer 5 — Module 3: Shared Components 🔄 APPROVED — PENDING PR
 
-
-**Spec:** ⬜ `/create-spec SharedComponents`
-**Stitch screen:** Design System (`asset-stub-assets_0c364825aa6640ddb1dd32c3ab87ab81`)
+**Spec:** ✅ `specs/shared-components/SPEC.md`
+**Review:** ✅ `review-reports/shared-components.md` — APPROVED 2026-06-13
+**Branch:** `feat/shared-components`
 
 | Layer | Task | Status |
 |-------|------|--------|
-| Frontend | `DataTable.tsx` — sort, pagination, search | ⬜ |
-| Frontend | `CrudForm.tsx` — generic create/edit wrapper | ⬜ |
-| Frontend | `ActivityTimeline.tsx` — calls, emails, notes, tasks | ⬜ |
-| Frontend | `StatusBadge.tsx` — lead/deal/ticket status | ⬜ |
-| Frontend | `PriorityDot.tsx` — ticket priority indicator | ⬜ |
-| Frontend | `OwnerSelect.tsx` — assignee picker | ⬜ |
-| Frontend | `TagInput.tsx` — multi-tag input | ⬜ |
-| Frontend | `EmptyState.tsx` — empty list/page state | ⬜ |
-| Frontend | `PageHeader.tsx` — title + action buttons bar | ⬜ |
-| Frontend | `ConfirmDialog.tsx` — delete confirmation modal | ⬜ |
-| Frontend | `SearchInput.tsx` — debounced search input | ⬜ |
-| Tests | Unit tests — each component renders correctly | ⬜ |
+| Frontend | `DataTable.tsx` — TanStack Table, sort, pagination, skeleton | ✅ |
+| Frontend | `CrudForm.tsx` — react-hook-form shell, pending spinner | ✅ |
+| Frontend | `ActivityTimeline.tsx` — icon map, connector line, skeleton | ✅ |
+| Frontend | `StatusBadge.tsx` — colour-mapped pill, unknown fallback | ✅ |
+| Frontend | `PriorityDot.tsx` — coloured dot + optional label | ✅ |
+| Frontend | `OwnerSelect.tsx` — Command/Popover combobox, Unassign | ✅ |
+| Frontend | `TagInput.tsx` — chip input, Enter/comma/Backspace | ✅ |
+| Frontend | `EmptyState.tsx` — centered icon + title + CTA | ✅ |
+| Frontend | `PageHeader.tsx` — flex header, title left, actions right | ✅ |
+| Frontend | `ConfirmDialog.tsx` — destructive Dialog, disabled while pending | ✅ |
+| Frontend | `SearchInput.tsx` — debounced, clear button, Search icon | ✅ |
+| Tests | 67 unit tests — 23/23 ACs + all BRs covered | ✅ |
 | DevOps | `/commit` + `/create-pr` | ⬜ |
 
 ---
 
-## Layer 6 — Module 4: Contacts
+## Layer 6 — Module 4: Contacts ⬜ NEXT
 
-**Spec:** ⬜ `/create-spec Contacts`
-**Stitch screens:** Contacts List + Contact Detail
+**Spec:** ⬜ Run `/create-spec Contacts`
+**Stitch screens:** CRM Contacts List (`c744ca79a3b14fb49ca284b552f1c7f0`) + CRM Contact Detail (`b2ac0c027cd748b19c899e117c670912`)
+**Unblocked by:** Shared Components (Layer 5)
 
 | Layer | Task | Status |
 |-------|------|--------|
 | DB | `contacts` table + RLS | ✅ in migrations |
-| Backend | `src/lib/validations/contact.ts` | ⬜ |
+| Backend | `src/lib/validations/contact.ts` — contactSchema | ⬜ |
 | Backend | `src/lib/actions/contacts.ts` — CRUD + CSV import | ⬜ |
 | Frontend | `src/app/(dashboard)/contacts/page.tsx` — list + search | ⬜ |
 | Frontend | `src/app/(dashboard)/contacts/columns.tsx` | ⬜ |
@@ -128,16 +131,16 @@ Status: ⬜ Todo | 🔄 In Progress | ✅ Done | 🔒 Blocked
 | Frontend | `src/app/(dashboard)/contacts/[id]/page.tsx` — detail + timeline | ⬜ |
 | Frontend | `src/app/(dashboard)/contacts/[id]/edit/page.tsx` | ⬜ |
 | Frontend | `error.tsx` + `loading.tsx` per route | ⬜ |
-| Tests | Unit tests (schema + actions) | ⬜ |
-| Tests | E2E tests (create, search, detail, edit, delete) | ⬜ |
+| Tests | Unit tests — schema + actions | ⬜ |
+| Tests | E2E tests — create, search, detail, edit, delete | ⬜ |
 | DevOps | `/commit` + `/create-pr` | ⬜ |
 
 ---
 
 ## Layer 7 — Module 5: Leads 🔒 After Contacts
 
-**Spec:** 🔒 `/create-spec Leads` — after Contacts is built
-**Stitch screen:** Leads List & Detail
+**Spec:** 🔒 Run `/create-spec Leads` after Contacts is merged
+**Stitch screen:** CRM Leads List & Detail (`219d7f6e5ccb4e80864c3ec66dc0743a`)
 
 | Layer | Task | Status |
 |-------|------|--------|
@@ -153,8 +156,8 @@ Status: ⬜ Todo | 🔄 In Progress | ✅ Done | 🔒 Blocked
 
 ## Layer 8 — Module 6: Deals + Kanban 🔒 After Leads
 
-**Spec:** 🔒 `/create-spec Deals` — after Leads is built
-**Stitch screen:** Deals Pipeline
+**Spec:** 🔒 Run `/create-spec Deals` after Leads is merged
+**Stitch screen:** CRM Deals Pipeline (`49d332b5a2dd4dc4a424a77f4fa75cfe`)
 
 | Layer | Task | Status |
 |-------|------|--------|
@@ -162,7 +165,7 @@ Status: ⬜ Todo | 🔄 In Progress | ✅ Done | 🔒 Blocked
 | Backend | `src/lib/validations/deal.ts` | 🔒 |
 | Backend | `src/lib/actions/deals.ts` — CRUD + stage move | 🔒 |
 | Backend | `src/lib/actions/pipelines.ts` — multi-pipeline support | 🔒 |
-| Frontend | `src/app/(dashboard)/deals/page.tsx` — Kanban with pipeline selector | 🔒 |
+| Frontend | `src/app/(dashboard)/deals/page.tsx` — Kanban + pipeline selector | 🔒 |
 | Frontend | `src/components/modules/deals/KanbanBoard.tsx` | 🔒 |
 | Frontend | `src/components/modules/deals/KanbanColumn.tsx` | 🔒 |
 | Frontend | `src/components/modules/deals/KanbanCard.tsx` | 🔒 |
@@ -174,8 +177,8 @@ Status: ⬜ Todo | 🔄 In Progress | ✅ Done | 🔒 Blocked
 
 ## Layer 9 — Module 7: Tickets 🔒 After Contacts
 
-**Spec:** 🔒 `/create-spec Tickets` — after Contacts is built
-**Stitch screen:** Support Tickets
+**Spec:** 🔒 Run `/create-spec Tickets` after Contacts is merged
+**Stitch screen:** CRM Support Tickets (`fbfaee3f845f4b8596df70cce1f169ae`)
 
 | Layer | Task | Status |
 |-------|------|--------|
@@ -192,14 +195,14 @@ Status: ⬜ Todo | 🔄 In Progress | ✅ Done | 🔒 Blocked
 
 ## Layer 10 — Module 8: Activities 🔒 After Deals + Tickets
 
-**Spec:** 🔒 `/create-spec Activities`
+**Spec:** 🔒 Run `/create-spec Activities` after Deals + Tickets are merged
 
 | Layer | Task | Status |
 |-------|------|--------|
 | DB | `activities` table + RLS | ✅ in migrations |
+| Frontend | `ActivityTimeline.tsx` (shared component) | ✅ built in Layer 5 |
 | Backend | `src/lib/actions/activities.ts` | 🔒 |
 | Frontend | `src/app/(dashboard)/activities/page.tsx` | 🔒 |
-| Frontend | `ActivityTimeline.tsx` (shared) — reused across modules | 🔒 |
 | Tests | Unit + E2E | 🔒 |
 | DevOps | `/commit` + `/create-pr` | 🔒 |
 
@@ -207,7 +210,7 @@ Status: ⬜ Todo | 🔄 In Progress | ✅ Done | 🔒 Blocked
 
 ## Layer 11 — Module 9: Email 🔒 After Tickets
 
-**Spec:** 🔒 `/create-spec Email`
+**Spec:** 🔒 Run `/create-spec Email` after Tickets is merged
 
 | Layer | Task | Status |
 |-------|------|--------|
@@ -223,14 +226,14 @@ Status: ⬜ Todo | 🔄 In Progress | ✅ Done | 🔒 Blocked
 
 ## Layer 12 — Module 10: Reports 🔒 After All Modules
 
-**Spec:** 🔒 `/create-spec Reports`
-**Stitch screen:** Reports Dashboard
+**Spec:** 🔒 Run `/create-spec Reports` after all modules are merged
+**Stitch screen:** CRM Reports Dashboard (`0a01fa82d8544dd99680ec001f253fb3`)
 
 | Layer | Task | Status |
 |-------|------|--------|
 | Backend | `src/lib/actions/reports.ts` — aggregation queries | 🔒 |
 | Frontend | `src/app/(dashboard)/reports/page.tsx` — 5 chart cards | 🔒 |
-| Frontend | Chart components (recharts or similar) | 🔒 |
+| Frontend | Chart components (recharts) | 🔒 |
 | Tests | Unit + E2E | 🔒 |
 | DevOps | `/commit` + `/create-pr` | 🔒 |
 
@@ -238,7 +241,7 @@ Status: ⬜ Todo | 🔄 In Progress | ✅ Done | 🔒 Blocked
 
 ## Layer 13 — Module 11: Settings 🔒 After All Modules
 
-**Spec:** 🔒 `/create-spec Settings`
+**Spec:** 🔒 Run `/create-spec Settings` after all modules are merged
 
 | Layer | Task | Status |
 |-------|------|--------|
@@ -250,21 +253,18 @@ Status: ⬜ Todo | 🔄 In Progress | ✅ Done | 🔒 Blocked
 
 ---
 
-## Dependencies to Install (after create-next-app)
+## Build Order Summary
 
-```bash
-npm install @supabase/supabase-js @supabase/ssr
-npm install @tanstack/react-query zod react-hook-form @hookform/resolvers
-npm install resend sonner lucide-react clsx tailwind-merge
-
-npx shadcn@latest init
-npx shadcn@latest add button input label form card badge table
-npx shadcn@latest add dialog sheet dropdown-menu select tabs avatar
-npx shadcn@latest add skeleton toast progress separator command popover
-
-npm install @dnd-kit/core @dnd-kit/sortable @dnd-kit/utilities
-
-npm install -D vitest @vitejs/plugin-react @testing-library/react
-npm install -D @testing-library/user-event @testing-library/jest-dom
-npm install -D @playwright/test
-```
+| # | Module | Branch | Status |
+|---|--------|--------|--------|
+| 1 | Auth | `feat/auth` | ✅ Merged to main |
+| 2 | Layout Shell | `feat/layout` | ✅ Merged to main |
+| 3 | Shared Components | `feat/shared-components` | 🔄 Approved — needs `/commit` + `/create-pr` |
+| 4 | Contacts | `feat/contacts` | ⬜ Next — run `/create-spec Contacts` |
+| 5 | Leads | `feat/leads` | 🔒 After Contacts |
+| 6 | Deals + Kanban | `feat/deals` | 🔒 After Leads |
+| 7 | Tickets | `feat/tickets` | 🔒 After Contacts |
+| 8 | Activities | `feat/activities` | 🔒 After Deals + Tickets |
+| 9 | Email | `feat/email` | 🔒 After Tickets |
+| 10 | Reports | `feat/reports` | 🔒 After all modules |
+| 11 | Settings | `feat/settings` | 🔒 After all modules |
