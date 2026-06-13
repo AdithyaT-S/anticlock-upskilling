@@ -84,12 +84,14 @@ export function LeadsClient({
     router.push(`${pathname}?${params.toString()}`)
   }
 
-  function handleDeleted() {
-    handleClosePanel()
+  const handleDeleted = useCallback(() => {
+    const params = new URLSearchParams(searchParams.toString())
+    params.delete('id')
+    router.push(`${pathname}?${params.toString()}`)
     router.refresh()
-  }
+  }, [pathname, router, searchParams])
 
-  const columns = useMemo(() => makeColumns(handleDeleted), [])
+  const columns = useMemo(() => makeColumns(handleDeleted), [handleDeleted])
 
   return (
     <div className="space-y-4">
