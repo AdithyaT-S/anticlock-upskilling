@@ -28,6 +28,8 @@ If SPEC.md is missing: stop and say "Run /create-spec {ModuleName} first."
 ### Step 1 — Read all context (load once, use throughout)
 Read these files — do not re-read mid-implementation:
 - `src/app/(dashboard)/{module}/SPEC.md`
+- `agents/actions-builder.md`
+- `agents/ui-builder.md`
 - `.claude/skills/db-query/SKILL.md`
 - `.claude/skills/server-action/SKILL.md`
 - `.claude/skills/crud-form/SKILL.md`

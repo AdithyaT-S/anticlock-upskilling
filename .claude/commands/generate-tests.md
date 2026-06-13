@@ -27,6 +27,7 @@ Read (load once):
 - `src/app/(dashboard)/{module}/SPEC.md` — acceptance criteria + test cases sections
 - `src/lib/validations/{module}.ts` — schema to test
 - `src/lib/actions/{module}.ts` — actions to test
+- `agents/test-writer.md`
 - `.claude/skills/test-unit/SKILL.md`
 - `.claude/skills/test-e2e/SKILL.md`
 

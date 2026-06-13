@@ -128,7 +128,7 @@ Spec + build one module at a time in this order:
 | Skill | When to read |
 |-------|-------------|
 | `.claude/skills/db-provider/SKILL.md` | Any DB query or server action |
-| `.claude/skills/supabase-query/SKILL.md` | DB reads in server components |
+| `.claude/skills/db-query/SKILL.md` | DB reads in server components |
 | `.claude/skills/server-action/SKILL.md` | Any mutation (create/update/delete) |
 | `.claude/skills/crud-form/SKILL.md` | Any create or edit form |
 | `.claude/skills/data-table/SKILL.md` | Any list/table page |
