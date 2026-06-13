@@ -8,7 +8,11 @@
       "Edit(/.claude/skills/test-unit/**)",
       "Edit(/.claude/skills/test-e2e/**)",
       "Edit(/.claude/skills/rls-policy/**)",
-      "Edit(/.claude/skills/error-handling/**)"
+      "Edit(/.claude/skills/error-handling/**)",
+      "Bash(cd \"c:/Works/anticlock\" && mkdir -p db/migrations && cp supabase/migrations/*.sql db/migrations/ && ls db/migrations/)"
+    ],
+    "additionalDirectories": [
+      "C:\\Works\\anticlock\\supabase\\migrations"
     ]
   }
 }

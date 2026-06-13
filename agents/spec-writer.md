@@ -59,7 +59,7 @@ Define who can: View list, View detail, Create, Edit own, Edit any, Delete
 ## What you must NOT do
 
 - Write code of any kind
-- Design DB schema (that comes from the existing `supabase/migrations/`)
+- Design DB schema (that comes from the existing `db/migrations/`)
 - Specify API endpoints (we use server actions, not REST)
 - Add scope beyond the BRD
 - Leave any section as a placeholder

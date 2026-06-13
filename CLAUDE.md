@@ -36,13 +36,15 @@ We are now building the full application on top of that foundation.
 | Framework | Next.js 14 App Router |
 | Language | TypeScript (strict) |
 | Styling | Tailwind CSS + shadcn/ui |
-| Database | Supabase (Postgres + Auth + Realtime) |
+| Database | **Docker Postgres 16** (local, default) → Supabase Cloud / AWS RDS (prod) |
+| Auth | NextAuth.js v4 — credentials provider, JWT sessions, no Supabase Auth |
 | DB Abstraction | `src/lib/db/index.ts` — the ONLY import for DB access |
+| Auth helper | `src/lib/auth.ts` — NextAuth config + `getAuthUser()` — imported by ALL server actions |
 | Validation | Zod — on every form and every server action |
 | Data fetching | Server Components (default) + TanStack Query (client) |
 | Email | Resend (send) + webhook (receive) |
 | Testing | Vitest (unit) + Playwright (E2E) |
-| Deploy | Vercel + Supabase Cloud |
+| Deploy | Vercel + Supabase Cloud (DB only — not Supabase Auth) |
 | Region | ap-south-1 (Mumbai) |
 
 ---
@@ -51,7 +53,7 @@ We are now building the full application on top of that foundation.
 
 1. **Auth first** — every server action starts with `const user = await getAuthUser()` before anything else
 2. **Zod before DB** — always validate input with Zod before any database call
-3. **No SDK leakage** — never import `pg`, `@supabase/supabase-js`, `@neondatabase/serverless` in app code — always use `src/lib/db/index.ts`
+3. **No SDK leakage** — never import `pg`, `@supabase/supabase-js`, `@neondatabase/serverless` in app code — always use `src/lib/db/index.ts`. Auth uses NextAuth via `src/lib/auth.ts` only.
 4. **No duplicate components** — before building any component, check `src/components/shared/` first
 5. **No inline DB calls in components** — all queries go through `src/lib/actions/`
 6. **Read the skill file first** — before writing any new pattern, read the relevant `.claude/skills/` file
@@ -145,6 +147,12 @@ Spec + build one module at a time in this order:
 ## Folder Structure — Build To This Exactly
 
 ```
+db/
+└── migrations/                 ← SQL migrations (provider-agnostic, run by scripts/migrate.ts)
+    ├── 000_extensions.sql
+    ├── 001_tables.sql
+    └── 002_rls.sql
+
 specs/                          ← ALL module specs live here, never inside src/
 ├── auth/SPEC.md
 ├── layout/SPEC.md
@@ -190,14 +198,14 @@ src/
 │       ├── deals/      KanbanBoard, KanbanColumn, KanbanCard
 │       └── tickets/    TicketThread, ReplyComposer
 ├── lib/
-│   ├── db/             ← ALREADY BUILT — provider abstraction
-│   ├── supabase/       client.ts, server.ts, middleware.ts
+│   ├── db/             ← ALREADY BUILT — provider abstraction (Docker local by default)
+│   ├── auth.ts         ← NextAuth config + getAuthUser()
 │   ├── validations/    contact.ts, lead.ts, deal.ts, ticket.ts (Zod schemas)
 │   ├── actions/        contacts.ts, leads.ts, deals.ts, tickets.ts
 │   └── utils/          cn.ts, format.ts, constants.ts
 └── types/
     ├── crm.ts
-    └── supabase.ts
+    └── db.ts
 ```
 
 ---

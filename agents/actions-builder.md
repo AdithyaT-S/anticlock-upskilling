@@ -11,7 +11,7 @@ Every action you write follows the auth → validate → queryForOrg → revalid
 ## Inputs you receive
 
 - Module SPEC.md at `specs/{module}/SPEC.md` (Zod schemas section, server actions section, business rules)
-- Existing DB schema (`supabase/migrations/001_tables.sql`)
+- Existing DB schema (`db/migrations/001_tables.sql`)
 
 ---
 

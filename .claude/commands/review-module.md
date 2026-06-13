@@ -81,10 +81,35 @@ If all checks pass:
 ✅ APPROVED — run /create-pr to open a pull request
 ```
 
-### On approval — update TASKS.md
-- Mark PR column as ⬜ (ready to PR) for this module
+### On approval — save report + update TASKS.md
+- Write the full report to `review-reports/{module-kebab}.md` with today's date and verdict
+- Mark PR column as ⬜ (ready to PR) for this module in TASKS.md
 - Check if any 🔒 blocked modules are now unblocked — if so, change their Spec column from 🔒 to ⬜
   Example: Contacts approved → unlock Leads Spec ⬜ and Tickets Spec ⬜
+
+Report file format (`review-reports/{module}.md`):
+```markdown
+# Review Report: {ModuleName}
+**Date:** {today}
+**Verdict:** ✅ APPROVED / ❌ CHANGES REQUIRED
+
+## CLAUDE.md Rules
+...table of rule checks...
+
+## SPEC Coverage
+...AC table + BR table...
+
+## Design Compliance
+...Stitch screen checks...
+
+## Test Results
+- TypeScript: N errors
+- Unit tests: N/N passing
+- E2E tests: N tests (require live server)
+
+## Files Reviewed
+...list of files...
+```
 
 ---
 
