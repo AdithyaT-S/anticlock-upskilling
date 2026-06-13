@@ -17,6 +17,7 @@ import { StatusBadge } from '@/components/shared/StatusBadge'
 import { ActivityTimeline } from '@/components/shared/ActivityTimeline'
 import { updateLeadStatus, convertLeadToDeal, type LeadWithContact } from '@/lib/actions/leads'
 import { DB_LEAD_STATUSES, LEAD_STATUS_LABELS } from '@/lib/validations/lead'
+import { getInitials, scoreColorClass } from '@/lib/utils/format'
 import type { Activity } from '@/types/crm'
 
 interface LeadDetailPanelProps {
@@ -31,15 +32,6 @@ function scoreLabel(score: number): string {
   return 'LOW'
 }
 
-function scoreColorClass(score: number): string {
-  if (score >= 70) return 'text-green-600'
-  if (score >= 40) return 'text-yellow-600'
-  return 'text-red-600'
-}
-
-function initials(first: string | null, last: string | null) {
-  return `${first?.[0] ?? ''}${last?.[0] ?? ''}`.toUpperCase()
-}
 
 export function LeadDetailPanel({ lead, activities, onClose }: LeadDetailPanelProps) {
   const router = useRouter()
@@ -86,7 +78,7 @@ export function LeadDetailPanel({ lead, activities, onClose }: LeadDetailPanelPr
       {/* Header */}
       <div className="flex items-start gap-3 p-4 border-b">
         <div className="w-10 h-10 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center font-medium text-sm flex-shrink-0">
-          {initials(lead.contact_first_name, lead.contact_last_name)}
+          {getInitials(lead.contact_first_name, lead.contact_last_name)}
         </div>
         <div className="flex-1 min-w-0">
           <h2 className="font-semibold text-gray-900 leading-tight truncate">

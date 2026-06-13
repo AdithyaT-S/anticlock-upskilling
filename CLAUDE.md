@@ -77,9 +77,6 @@ Command definitions: `.claude/commands/`
 
 ---
 
-## Agents
-
-`agents/spec-writer.md` · `agents/ui-builder.md` · `agents/actions-builder.md` · `agents/test-writer.md`
 
 ---
 

@@ -15,9 +15,16 @@ export default defineConfig({
   },
 
   projects: [
+    // Runs first: sign up / log in and save session to .auth/user.json
+    {
+      name: 'setup',
+      testMatch: '**/auth.setup.ts',
+    },
+
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
+      dependencies: ['setup'],
     },
   ],
 

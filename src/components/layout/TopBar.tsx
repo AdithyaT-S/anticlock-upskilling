@@ -3,19 +3,12 @@
 import { useState } from 'react'
 import { Bell, Menu } from 'lucide-react'
 import { MobileNav } from './MobileNav'
+import { getInitials } from '@/lib/utils/format'
 
 interface TopBarProps {
   user: { name: string; email: string; role: string }
 }
 
-function getInitials(name: string): string {
-  return name
-    .split(' ')
-    .map((n) => n[0] ?? '')
-    .join('')
-    .toUpperCase()
-    .slice(0, 2)
-}
 
 export function TopBar({ user }: TopBarProps) {
   const [mobileOpen, setMobileOpen] = useState(false)

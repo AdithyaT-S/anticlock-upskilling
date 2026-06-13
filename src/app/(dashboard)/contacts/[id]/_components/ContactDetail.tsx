@@ -16,6 +16,7 @@ import { OwnerSelect } from '@/components/shared/OwnerSelect'
 import { TagInput } from '@/components/shared/TagInput'
 import { deleteContact, updateContact, type ContactWithOwner, type OrgMember } from '@/lib/actions/contacts'
 import { LEAD_SOURCE_LABELS, type ContactInput } from '@/lib/validations/contact'
+import { getInitials } from '@/lib/utils/format'
 import type { Activity } from '@/types/crm'
 
 interface ContactDetailProps {
@@ -26,9 +27,6 @@ interface ContactDetailProps {
   dealsCount: number
 }
 
-function initials(first: string, last: string) {
-  return `${first[0] ?? ''}${last[0] ?? ''}`.toUpperCase()
-}
 
 export function ContactDetail({ contact, activities, canEdit, members, dealsCount }: ContactDetailProps) {
   const router = useRouter()
@@ -101,7 +99,7 @@ export function ContactDetail({ contact, activities, canEdit, members, dealsCoun
             <div className="flex items-center gap-4">
               <Avatar className="h-14 w-14 flex-shrink-0">
                 <AvatarFallback className="text-xl bg-indigo-100 text-indigo-700">
-                  {initials(contact.first_name, contact.last_name)}
+                  {getInitials(contact.first_name, contact.last_name)}
                 </AvatarFallback>
               </Avatar>
               <div>

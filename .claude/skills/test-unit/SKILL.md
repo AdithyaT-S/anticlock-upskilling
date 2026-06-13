@@ -10,7 +10,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { contactSchema } from '@/lib/validations/contact'
 import { createContact, deleteContact } from '@/lib/actions/contacts'
 
-// Mock the DB abstraction layer
+// Mock the DB abstraction layer — ALL three exports
 vi.mock('@/lib/db', () => ({
   queryForOrg: vi.fn(),
   query: vi.fn(),
@@ -27,10 +27,23 @@ vi.mock('next/cache', () => ({ revalidatePath: vi.fn() }))
 import { queryForOrg } from '@/lib/db'
 import { getAuthUser } from '@/lib/auth'
 
-const mockUser = { id: 'user-1', orgId: 'org-1', role: 'admin' }
+// ── Mock constants ──────────────────────────────────────────────────
+// IMPORTANT: Use valid UUIDs for any field validated with z.string().uuid()
+const ORG_ID     = '00000000-0000-4000-8000-000000000001'
+const USER_ID    = '00000000-0000-4000-8000-000000000002'
+const CONTACT_ID = '00000000-0000-4000-8000-000000000003'
+
+// IMPORTANT: mockUser must include email — getAuthUser() returns { id, email, orgId, role }
+const mockUser = {
+  id:    USER_ID,
+  email: 'admin@test.com',
+  orgId: ORG_ID,
+  role:  'admin' as const,
+}
+
 const mockContact = {
-  id: 'contact-1', org_id: 'org-1', first_name: 'Priya',
-  last_name: 'Sharma', email: 'priya@example.com',
+  id: CONTACT_ID, org_id: ORG_ID,
+  first_name: 'Priya', last_name: 'Sharma', email: 'priya@example.com',
 }
 
 describe('Contact validation', () => {
@@ -79,31 +92,59 @@ describe('createContact action', () => {
     expect(result.data).toEqual(mockContact)
     expect(queryForOrg).toHaveBeenCalledOnce()
   })
-
-  it('propagates DB errors gracefully', async () => {
-    vi.mocked(getAuthUser).mockResolvedValue(mockUser)
-    vi.mocked(queryForOrg).mockRejectedValue(new Error('DB connection failed'))
-    await expect(createContact({ first_name: 'Priya', email: 'p@x.com' }))
-      .rejects.toThrow()
-  })
 })
 
 describe('deleteContact action', () => {
   it('soft deletes — does not hard delete', async () => {
     vi.mocked(getAuthUser).mockResolvedValue(mockUser)
-    vi.mocked(queryForOrg).mockResolvedValue([])
-    await deleteContact('contact-1')
-    const call = vi.mocked(queryForOrg).mock.calls[0]
-    expect(call[2]).toMatch(/deleted_at/)       // SQL must set deleted_at
-    expect(call[2]).not.toMatch(/DELETE FROM/)  // must NOT hard delete
+    vi.mocked(queryForOrg).mockResolvedValue([{ id: CONTACT_ID }])
+    await deleteContact(CONTACT_ID)
+    const sql = vi.mocked(queryForOrg).mock.calls.find(c => String(c[2]).includes('UPDATE'))![2]
+    expect(String(sql)).toMatch(/deleted_at/)
+    expect(String(sql)).not.toMatch(/DELETE FROM/)
   })
 })
 ```
 
+## UUID requirement
+
+If a Zod schema uses `z.string().uuid()` (e.g. `pipeline_id`, `stage_id`, `contact_id`), test IDs **must** be valid v4-format UUIDs. Non-UUID strings like `'contact-1'` or `'org-1'` will fail schema validation and trigger the wrong error path.
+
+Always define UUID constants at the top of the test file:
+```typescript
+const ORG_ID  = '00000000-0000-4000-8000-000000000001'
+const USER_ID = '00000000-0000-4000-8000-000000000002'
+// etc — increment the last segment per constant
+```
+
+## mockUser shape
+
+`getAuthUser()` returns `{ id, email, orgId, role }`. The mock must include **all four fields**:
+```typescript
+const mockUser = {
+  id:    USER_ID,
+  email: 'admin@test.com',
+  orgId: ORG_ID,
+  role:  'admin' as const,   // ← 'as const' required for "admin" | "member" | "viewer" type
+}
+```
+
+## Multiple sequential DB calls
+
+When an action makes N calls to `queryForOrg`, chain `mockResolvedValueOnce` exactly N times in order:
+```typescript
+vi.mocked(queryForOrg)
+  .mockResolvedValueOnce([existingRecord])   // call 1: SELECT
+  .mockResolvedValueOnce([{ id: NEW_ID }])   // call 2: INSERT
+  .mockResolvedValueOnce(stages)             // call 3: SELECT stages
+```
+
 ## Rules
 
-- Mock `@/lib/db` and `@/lib/auth` — never hit real DB or real auth in unit tests
+- Mock `@/lib/db` (queryForOrg + query + transaction) and `@/lib/auth` — never hit real DB
 - Minimum 5 test cases per module: schema valid, schema invalid, auth guard, success path, error path
 - Test soft-delete asserts SQL contains `deleted_at`, not `DELETE FROM`
+- IDs must be valid UUIDs whenever the schema uses `z.string().uuid()`
+- `mockUser` must include `email` field and `role: '...' as const`
 - Run with `npx vitest run` — all must pass before committing
 - Coverage gate: 80% lines + functions enforced in CI

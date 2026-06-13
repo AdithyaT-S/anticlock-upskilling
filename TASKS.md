@@ -22,7 +22,6 @@ Status: ⬜ Todo | 🔄 In Progress | ✅ Done | 🔒 Blocked
 | Deploy pipeline | ✅ | `.github/workflows/deploy.yml` |
 | Skill files (10 skills) | ✅ | `.claude/skills/` |
 | Commands (4 commands) | ✅ | `.claude/commands/` |
-| Agents (4 agents) | ✅ | `agents/` |
 | BRD | ✅ | `docs/BRD.md` |
 | Stitch designs (8 screens) | ✅ | `docs/Stitch Instructions.md` |
 
@@ -114,12 +113,12 @@ Status: ⬜ Todo | 🔄 In Progress | ✅ Done | 🔒 Blocked
 
 ---
 
-## Layer 6 — Module 4: Contacts 🔄 In Progress
+## Layer 6 — Module 4: Contacts ✅ MERGED
 
 **Spec:** ✅ `specs/contacts/SPEC.md`
 **Review:** ✅ `review-reports/contacts.md` — APPROVED 2026-06-13
 **Stitch screens:** CRM Contacts List (`c744ca79a3b14fb49ca284b552f1c7f0`) + CRM Contact Detail (`b2ac0c027cd748b19c899e117c670912`)
-**Branch:** `feat/contacts`
+**Branch:** `feat/contacts` — merged via PR #6
 
 | Layer | Task | Status |
 |-------|------|--------|
@@ -134,16 +133,16 @@ Status: ⬜ Todo | 🔄 In Progress | ✅ Done | 🔒 Blocked
 | Frontend | `error.tsx` + `loading.tsx` per route | ✅ |
 | Tests | Unit tests — schema + actions | ✅ |
 | Tests | E2E tests — create, search, detail, edit, delete | ✅ |
-| DevOps | `/commit` + `/create-pr` | ⬜ |
+| DevOps | `/commit` + `/create-pr` + merged | ✅ |
 
 ---
 
-## Layer 7 — Module 5: Leads 🔄 In Progress
+## Layer 7 — Module 5: Leads ✅ MERGED
 
 **Spec:** ✅ `specs/leads/SPEC.md`
 **Review:** ✅ `review-reports/leads.md` — APPROVED 2026-06-13
 **Stitch screen:** CRM Leads List & Detail (`219d7f6e5ccb4e80864c3ec66dc0743a`)
-**Branch:** `feat/leads`
+**Branch:** `feat/leads` — merged to main
 
 | Layer | Task | Status |
 |-------|------|--------|
@@ -153,28 +152,34 @@ Status: ⬜ Todo | 🔄 In Progress | ✅ Done | 🔒 Blocked
 | Frontend | `src/app/(dashboard)/leads/page.tsx` + detail panel | ✅ |
 | Frontend | `src/app/(dashboard)/leads/columns.tsx` | ✅ |
 | Tests | Unit (45/45) + E2E (10 flows) | ✅ |
-| DevOps | `/commit` + `/create-pr` | ⬜ |
+| DevOps | `/commit` + `/create-pr` + merged | ✅ |
 
 ---
 
-## Layer 8 — Module 6: Deals + Kanban 🔒 After Leads
+## Layer 8 — Module 6: Deals + Kanban 🔄 In Progress
 
-**Spec:** 🔒 Run `/create-spec Deals` after Leads is merged
+**Spec:** ✅ `specs/deals/SPEC.md`
+**Review:** ✅ `review-reports/deals.md` — APPROVED 2026-06-14
 **Stitch screen:** CRM Deals Pipeline (`49d332b5a2dd4dc4a424a77f4fa75cfe`)
+**Branch:** `feat/deals`
 
 | Layer | Task | Status |
 |-------|------|--------|
 | DB | `pipelines`, `pipeline_stages`, `deals` + RLS | ✅ in migrations |
-| Backend | `src/lib/validations/deal.ts` | 🔒 |
-| Backend | `src/lib/actions/deals.ts` — CRUD + stage move | 🔒 |
-| Backend | `src/lib/actions/pipelines.ts` — multi-pipeline support | 🔒 |
-| Frontend | `src/app/(dashboard)/deals/page.tsx` — Kanban + pipeline selector | 🔒 |
-| Frontend | `src/components/modules/deals/KanbanBoard.tsx` | 🔒 |
-| Frontend | `src/components/modules/deals/KanbanColumn.tsx` | 🔒 |
-| Frontend | `src/components/modules/deals/KanbanCard.tsx` | 🔒 |
-| Frontend | `src/app/(dashboard)/deals/[id]/page.tsx` — deal detail | 🔒 |
-| Tests | Unit + E2E (drag-drop, stage move, pipeline switch) | 🔒 |
-| DevOps | `/commit` + `/create-pr` | 🔒 |
+| Backend | `src/lib/validations/deal.ts` | ✅ |
+| Backend | `src/lib/actions/deals.ts` — CRUD + stage move + close | ✅ |
+| Backend | `src/lib/actions/pipelines.ts` — multi-pipeline support | ✅ |
+| Frontend | `src/app/(dashboard)/deals/page.tsx` — Kanban + pipeline selector | ✅ |
+| Frontend | `src/components/modules/deals/KanbanBoard.tsx` | ✅ |
+| Frontend | `src/components/modules/deals/KanbanColumn.tsx` | ✅ |
+| Frontend | `src/components/modules/deals/KanbanCard.tsx` | ✅ |
+| Frontend | `src/app/(dashboard)/deals/[id]/page.tsx` — redirects to board | ✅ |
+| Frontend | `src/app/(dashboard)/deals/[id]/edit/page.tsx` — edit form | ✅ |
+| Frontend | `src/app/(dashboard)/deals/_components/DealForm.tsx` | ✅ |
+| Frontend | `src/app/(dashboard)/deals/_components/DealDetailPanel.tsx` | ✅ |
+| Frontend | `src/app/(dashboard)/deals/_components/DealsClient.tsx` | ✅ |
+| Tests | Unit + E2E (drag-drop, stage move, pipeline switch) | ✅ |
+| DevOps | `/commit` + `/create-pr` | ⬜ |
 
 ---
 
@@ -263,9 +268,9 @@ Status: ⬜ Todo | 🔄 In Progress | ✅ Done | 🔒 Blocked
 | 1 | Auth | `feat/auth` | ✅ Merged to main |
 | 2 | Layout Shell | `feat/layout` | ✅ Merged to main |
 | 3 | Shared Components | `feat/shared-components` | ✅ Merged to main |
-| 4 | Contacts | `feat/contacts` | 🔄 In Progress — implementation done, needs tests + PR |
-| 5 | Leads | `feat/leads` | 🔒 After Contacts |
-| 6 | Deals + Kanban | `feat/deals` | 🔒 After Leads |
+| 4 | Contacts | `feat/contacts` | ✅ Merged to main |
+| 5 | Leads | `feat/leads` | ✅ Merged to main |
+| 6 | Deals + Kanban | `feat/deals` | 🔄 In Progress — spec next |
 | 7 | Tickets | `feat/tickets` | 🔒 After Contacts |
 | 8 | Activities | `feat/activities` | 🔒 After Deals + Tickets |
 | 9 | Email | `feat/email` | 🔒 After Tickets |

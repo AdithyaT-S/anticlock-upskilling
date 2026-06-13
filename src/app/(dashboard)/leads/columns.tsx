@@ -19,27 +19,7 @@ import { deleteLead } from '@/lib/actions/leads'
 import { LEAD_STATUS_LABELS } from '@/lib/validations/lead'
 import { toast } from 'sonner'
 import { useState, useTransition } from 'react'
-
-function initials(first: string | null, last: string | null) {
-  return `${first?.[0] ?? ''}${last?.[0] ?? ''}`.toUpperCase()
-}
-
-function relativeTime(dateStr: string | null): string {
-  if (!dateStr) return '—'
-  const diff = Date.now() - new Date(dateStr).getTime()
-  const mins = Math.floor(diff / 60_000)
-  if (mins < 60) return `${mins}m ago`
-  const hrs = Math.floor(mins / 60)
-  if (hrs < 24) return `${hrs}h ago`
-  const days = Math.floor(hrs / 24)
-  return `${days}d ago`
-}
-
-function scoreColorClass(score: number): string {
-  if (score >= 70) return 'text-green-600 font-semibold'
-  if (score >= 40) return 'text-yellow-600 font-semibold'
-  return 'text-red-600 font-semibold'
-}
+import { getInitials, formatRelativeTime, scoreColorClass } from '@/lib/utils/format'
 
 function ActionsCell({ lead, onDeleted }: { lead: LeadWithContact; onDeleted: () => void }) {
   const [open, setOpen] = useState(false)
@@ -105,7 +85,7 @@ export function makeColumns(onDeleted: () => void): ColumnDef<LeadWithContact>[]
           <div className="flex items-center gap-2.5">
             <Avatar className="h-8 w-8 flex-shrink-0">
               <AvatarFallback className="text-xs bg-indigo-100 text-indigo-700">
-                {initials(l.contact_first_name, l.contact_last_name)}
+                {getInitials(l.contact_first_name, l.contact_last_name)}
               </AvatarFallback>
             </Avatar>
             <div className="min-w-0">
@@ -134,7 +114,7 @@ export function makeColumns(onDeleted: () => void): ColumnDef<LeadWithContact>[]
       header: 'Score',
       enableSorting: true,
       cell: ({ row }) => (
-        <span className={scoreColorClass(row.original.score)}>
+        <span className={`font-semibold ${scoreColorClass(row.original.score)}`}>
           {row.original.score}
         </span>
       ),
@@ -170,7 +150,7 @@ export function makeColumns(onDeleted: () => void): ColumnDef<LeadWithContact>[]
       enableSorting: true,
       cell: ({ row }) => (
         <span className="text-sm text-gray-500">
-          {relativeTime(row.original.last_activity_at)}
+          {row.original.last_activity_at ? formatRelativeTime(row.original.last_activity_at) : '—'}
         </span>
       ),
     },

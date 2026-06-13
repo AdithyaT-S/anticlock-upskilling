@@ -4,21 +4,7 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { StatusBadge } from '@/components/shared/StatusBadge'
 import type { ContactWithOwner } from '@/lib/actions/contacts'
 import { LEAD_SOURCE_LABELS } from '@/lib/validations/contact'
-
-function initials(first: string, last: string) {
-  return `${first[0] ?? ''}${last[0] ?? ''}`.toUpperCase()
-}
-
-function relativeTime(dateStr: string | null): string {
-  if (!dateStr) return '—'
-  const diff = Date.now() - new Date(dateStr).getTime()
-  const mins = Math.floor(diff / 60_000)
-  if (mins < 60) return `${mins}m ago`
-  const hrs = Math.floor(mins / 60)
-  if (hrs < 24) return `${hrs}h ago`
-  const days = Math.floor(hrs / 24)
-  return `${days}d ago`
-}
+import { getInitials, formatRelativeTime } from '@/lib/utils/format'
 
 export const columns: ColumnDef<ContactWithOwner>[] = [
   {
@@ -31,7 +17,7 @@ export const columns: ColumnDef<ContactWithOwner>[] = [
         <div className="flex items-center gap-2.5">
           <Avatar className="h-7 w-7 flex-shrink-0">
             <AvatarFallback className="text-xs bg-indigo-100 text-indigo-700">
-              {initials(c.first_name, c.last_name)}
+              {getInitials(c.first_name, c.last_name)}
             </AvatarFallback>
           </Avatar>
           <Link
@@ -100,7 +86,7 @@ export const columns: ColumnDef<ContactWithOwner>[] = [
     enableSorting: true,
     cell: ({ row }) => (
       <span className="text-sm text-gray-500">
-        {relativeTime(row.original.last_activity_at)}
+        {row.original.last_activity_at ? formatRelativeTime(row.original.last_activity_at) : '—'}
       </span>
     ),
   },

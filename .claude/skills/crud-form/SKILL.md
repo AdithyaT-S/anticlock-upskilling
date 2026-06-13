@@ -34,7 +34,13 @@ export function ContactForm({ defaultValues, onSuccess }: ContactFormProps) {
   async function onSubmit(data: ContactInput) {
     const result = await createContact(data)
     if (result.error) {
-      toast.error('Something went wrong')
+      if ('fieldErrors' in result.error) {
+        Object.entries(result.error.fieldErrors).forEach(([field, messages]) => {
+          form.setError(field as keyof ContactInput, { message: (messages as string[])?.[0] })
+        })
+      } else {
+        toast.error(result.error.message)
+      }
       return
     }
     toast.success('Contact saved')
@@ -49,7 +55,7 @@ export function ContactForm({ defaultValues, onSuccess }: ContactFormProps) {
           name="first_name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>First name</FormLabel>
+              <FormLabel>First name *</FormLabel>
               <FormControl><Input {...field} /></FormControl>
               <FormMessage />
             </FormItem>
@@ -60,13 +66,13 @@ export function ContactForm({ defaultValues, onSuccess }: ContactFormProps) {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>Email *</FormLabel>
               <FormControl><Input type="email" {...field} /></FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit" disabled={form.formState.isSubmitting}>
+        <Button type="submit" className="w-full bg-indigo-600 hover:bg-indigo-700" disabled={form.formState.isSubmitting}>
           {form.formState.isSubmitting ? 'Saving...' : 'Save'}
         </Button>
       </form>
@@ -75,14 +81,28 @@ export function ContactForm({ defaultValues, onSuccess }: ContactFormProps) {
 }
 ```
 
+## Error handling pattern
+
+Always handle both field-level errors (Zod flatten) and message-level errors (DB/auth):
+```typescript
+if ('fieldErrors' in result.error) {
+  // Set inline errors on each field
+  Object.entries(result.error.fieldErrors).forEach(([field, messages]) => {
+    form.setError(field as keyof Input, { message: (messages as string[])?.[0] })
+  })
+} else {
+  toast.error(result.error.message)
+}
+```
+
 ## Rules
 
 - Always use `zodResolver` — never manual validation
 - Always use `Form` / `FormField` / `FormItem` from shadcn — never raw `<input>`
-- Always show `toast.success` on success and `toast.error` on failure
+- Always show `toast.success` on success and handle errors as above (field errors inline, message errors as toast)
 - Always disable submit button while `isSubmitting`
 - Accept `defaultValues` for edit mode — same component handles create and edit
-- Accept `onSuccess` callback — lets parent close a dialog or navigate away
+- Accept `onSuccess` callback — lets parent close a sheet or navigate away
 - Never call server actions outside `onSubmit`
 
 ## TypeScript gotchas with zodResolver
@@ -96,17 +116,32 @@ onChange={(e) => field.onChange(isNaN(e.target.valueAsNumber) ? 0 : e.target.val
 score: z.coerce.number().min(0).max(100)
 ```
 
+**Shadcn Select fields** — use `Select` + `SelectTrigger` + `SelectContent` + `SelectItem`, wrapped in `FormField`. Never use native `<select>`:
+```typescript
+<FormField
+  control={form.control}
+  name="status"
+  render={({ field }) => (
+    <FormItem>
+      <FormLabel>Status *</FormLabel>
+      <Select value={field.value} onValueChange={field.onChange}>
+        <FormControl><SelectTrigger><SelectValue /></SelectTrigger></FormControl>
+        <SelectContent>
+          {STATUSES.map((s) => <SelectItem key={s} value={s}>{s}</SelectItem>)}
+        </SelectContent>
+      </Select>
+      <FormMessage />
+    </FormItem>
+  )}
+/>
+```
+
 **Shared field components across create/edit forms.** When create and edit use different schemas (one requires `contact_id`, the other doesn't), define a shared base type and cast once:
 ```typescript
-type SharedFields = Omit<CreateInput, 'contact_id'>  // fields common to both
+type SharedFields = Omit<CreateInput, 'contact_id'>
 type SharedForm = UseFormReturn<SharedFields>
-
-// In each typed form, cast once:
 const sharedForm = form as unknown as SharedForm
-
-// Pass to all shared field components without duplication:
 <StatusField form={sharedForm} />
-<ScoreField  form={sharedForm} />
 ```
 
 **`ConfirmDialog.onConfirm` requires `() => Promise<void>`.** Make delete handlers `async`:

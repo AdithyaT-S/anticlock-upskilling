@@ -1,6 +1,7 @@
 import { Phone, Mail, FileText, CheckSquare, Calendar } from 'lucide-react'
 import { Skeleton } from '@/components/ui/skeleton'
 import { cn } from '@/lib/utils/cn'
+import { formatDateTime } from '@/lib/utils/format'
 import type { Activity } from '@/types/crm'
 
 interface ActivityTimelineProps {
@@ -16,15 +17,6 @@ const iconMap = {
   meeting: { Icon: Calendar,    bg: 'bg-purple-100 text-purple-600' },
 } as const
 
-function formatDate(dateStr: string): string {
-  return new Date(dateStr).toLocaleDateString('en-IN', {
-    day: 'numeric',
-    month: 'short',
-    year: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-  })
-}
 
 export function ActivityTimeline({ activities, isLoading = false }: ActivityTimelineProps) {
   if (isLoading) {
@@ -72,7 +64,7 @@ export function ActivityTimeline({ activities, isLoading = false }: ActivityTime
                 {activity.description && (
                   <p className="text-sm text-gray-600 mt-0.5">{activity.description}</p>
                 )}
-                <p className="text-xs text-gray-400 mt-1">{formatDate(activity.occurred_at)}</p>
+                <p className="text-xs text-gray-400 mt-1">{formatDateTime(activity.occurred_at)}</p>
               </div>
             </li>
           )

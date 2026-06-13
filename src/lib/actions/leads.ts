@@ -9,10 +9,10 @@ import {
   leadSearchSchema,
   leadStatusUpdateSchema,
 } from '@/lib/validations/lead'
-import type { Activity, ActivityType } from '@/types/crm'
-import type { OrgMember } from '@/lib/actions/contacts'
+import { type DbActivityRow, mapToActivity } from '@/lib/utils/activity'
+import type { OrgMember, ContactOption } from '@/lib/actions/contacts'
 
-export type { OrgMember }
+export type { OrgMember, ContactOption }
 
 // ── Extended types ──────────────────────────────────────────────────
 
@@ -39,48 +39,6 @@ export interface LeadWithContact {
   last_activity_at: string | null
 }
 
-export interface ContactOption {
-  id: string
-  first_name: string
-  last_name: string
-  email: string | null
-  company: string | null
-}
-
-interface DbActivityRow {
-  id: string
-  type: string
-  body: string | null
-  due_at: string | null
-  done_at: string | null
-  owner_id: string | null
-  created_at: string
-}
-
-const ACTIVITY_TITLES: Record<string, string> = {
-  call:    'Call logged',
-  email:   'Email sent',
-  note:    'Note added',
-  task:    'Task',
-  meeting: 'Meeting',
-}
-
-function mapToActivity(row: DbActivityRow, orgId: string, contactId: string): Activity {
-  return {
-    id:          row.id,
-    org_id:      orgId,
-    type:        row.type as ActivityType,
-    title:       ACTIVITY_TITLES[row.type] ?? row.type,
-    description: row.body ?? null,
-    contact_id:  contactId,
-    lead_id:     null,
-    deal_id:     null,
-    ticket_id:   null,
-    user_id:     row.owner_id ?? '',
-    occurred_at: row.created_at,
-    created_at:  row.created_at,
-  }
-}
 
 // ── getLeads ─────────────────────────────────────────────────────────
 
@@ -119,7 +77,6 @@ export async function getLeads(params: Record<string, string | string[] | undefi
     [...sqlParams, user.orgId]
   )
   const total = parseInt(countRow?.count ?? '0', 10)
-  idx++
 
   const leads = await queryForOrg<LeadWithContact>(
     user.orgId, user.id,
@@ -197,7 +154,7 @@ export async function getLead(id: string) {
     : []
 
   const mapped = activities.map((row) =>
-    mapToActivity(row, user.orgId, lead.contact_id ?? '')
+    mapToActivity(row, user.orgId, { contact_id: lead.contact_id })
   )
 
   return { data: { lead, activities: mapped } }
