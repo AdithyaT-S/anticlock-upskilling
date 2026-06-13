@@ -32,24 +32,26 @@ Status: ⬜ Todo | 🔄 In Progress | ✅ Done | 🔒 Blocked
 
 | Task | Status | Notes |
 |------|--------|-------|
-| `create-next-app` | ⬜ | Run in terminal — Node.js required |
-| Install npm dependencies | ⬜ | See TASKS.md bottom |
-| shadcn/ui init + components | ⬜ | After npm install |
-| `.env.local` setup | ⬜ | Copy from `.env.all-providers` |
-| `src/lib/utils/cn.ts` | ⬜ | clsx + tailwind-merge helper |
-| `src/lib/utils/format.ts` | ⬜ | date, currency, truncate helpers |
-| `src/lib/utils/constants.ts` | ⬜ | deal stages, lead sources, enums |
-| `src/types/crm.ts` | ⬜ | shared TypeScript types |
-| `src/types/supabase.ts` | ⬜ | generated DB types |
-| `src/tests/fixtures/auth.ts` | ⬜ | Playwright auth fixture |
-| `src/tests/mocks/db.ts` | ⬜ | Vitest DB mock |
-| `src/tests/helpers/factories.ts` | ⬜ | test data factories |
+| Next.js 14 scaffold (manual — folder was non-empty) | ✅ | `package.json`, `next.config.mjs`, `tsconfig.json`, `tailwind.config.ts` |
+| Install npm dependencies | ✅ | All deps + shadcn peer deps installed |
+| shadcn/ui init + components | ✅ | 20 components in `src/components/ui/` |
+| `.env.local` setup | ✅ | Local/Docker config |
+| `docker-compose.yml` | ✅ | Postgres 16 + Redis 7 (no local Postgres needed) |
+| `src/lib/utils/cn.ts` | ✅ | clsx + tailwind-merge helper |
+| `src/lib/utils/format.ts` | ✅ | date, currency, truncate helpers |
+| `src/lib/utils/constants.ts` | ✅ | deal stages, lead sources, enums |
+| `src/types/crm.ts` | ✅ | shared TypeScript types |
+| `src/types/supabase.ts` | ✅ | generated DB types (stub — regenerate after Supabase setup) |
+| `src/tests/fixtures/auth.ts` | ✅ | Playwright auth fixture |
+| `src/tests/mocks/db.ts` | ✅ | Vitest DB mock |
+| `src/tests/helpers/factories.ts` | ✅ | test data factories |
+| TypeScript clean build | ✅ | `tsc --noEmit` passes with zero errors |
 
 ---
 
 ## Layer 3 — Module 1: Auth
 
-**Spec:** ✅ `src/app/(auth)/SPEC.md`
+**Spec:** ✅ `specs/auth/SPEC.md`
 
 | Layer | Task | Status |
 |-------|------|--------|

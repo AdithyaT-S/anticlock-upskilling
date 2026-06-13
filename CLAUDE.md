@@ -55,7 +55,7 @@ We are now building the full application on top of that foundation.
 4. **No duplicate components** — before building any component, check `src/components/shared/` first
 5. **No inline DB calls in components** — all queries go through `src/lib/actions/`
 6. **Read the skill file first** — before writing any new pattern, read the relevant `.claude/skills/` file
-7. **SPEC.md before code** — every module needs a `SPEC.md` before its code starts
+7. **SPEC.md before code** — every module needs a `SPEC.md` in `specs/{module}/SPEC.md` before its code starts — never inside `src/app/`
 8. **Tests in same session** — unit + E2E tests are written in the same session as the feature
 9. **Stitch before UI** — always fetch the Stitch screen via MCP before writing any page or component
 
@@ -143,6 +143,13 @@ Spec + build one module at a time in this order:
 ## Folder Structure — Build To This Exactly
 
 ```
+specs/                          ← ALL module specs live here, never inside src/
+├── auth/SPEC.md
+├── layout/SPEC.md
+├── shared-components/SPEC.md
+├── contacts/SPEC.md
+└── ...
+
 src/
 ├── app/
 │   ├── (auth)/

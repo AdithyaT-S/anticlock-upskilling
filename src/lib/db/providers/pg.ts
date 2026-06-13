@@ -12,7 +12,7 @@
  *   function (000_extensions.sql) picks them up.
  */
 
-import { Pool, type PoolClient } from 'pg'
+import { Pool, type PoolClient, type QueryResultRow } from 'pg'
 import type { DBProviderImpl, OrgContext } from '../types'
 
 const provider = process.env.DB_PROVIDER ?? 'local'
@@ -52,7 +52,7 @@ export const pgProvider: DBProviderImpl = {
     const client = await pool.connect()
     try {
       if (context) await setOrgContext(client, context)
-      const result = await client.query<T>(sql, params)
+      const result = await client.query<T & QueryResultRow>(sql, params)
       return result.rows
     } finally {
       client.release()
@@ -69,7 +69,7 @@ export const pgProvider: DBProviderImpl = {
       if (context) await setOrgContext(client, context)
 
       const boundQuery = async <R>(sql: string, params: unknown[] = []) => {
-        const result = await client.query<R>(sql, params)
+        const result = await client.query<R & QueryResultRow>(sql, params)
         return result.rows
       }
 

@@ -29,7 +29,8 @@ export const supabaseProvider: DBProviderImpl = {
     params: unknown[] = [],
     // context unused — Supabase RLS reads from JWT automatically
   ): Promise<T[]> {
-    const { data, error } = await client.rpc('exec_sql', {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { data, error } = await (client.rpc as any)('exec_sql', {
       query: sql,
       params: JSON.stringify(params),
     })
@@ -49,7 +50,8 @@ export const supabaseProvider: DBProviderImpl = {
     }
     await fn(capture) // collect queries
 
-    const { error } = await client.rpc('exec_transaction', {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { error } = await (client.rpc as any)('exec_transaction', {
       queries: JSON.stringify(queries),
     })
     if (error) throw new Error(`Supabase transaction error: ${error.message}`)
