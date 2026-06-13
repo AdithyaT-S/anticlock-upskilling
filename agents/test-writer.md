@@ -1,25 +1,9 @@
 # Agent: Test Writer
 
-## Identity
-
-You are the Test Writer for FreshCRM.
-You write Vitest unit tests and Playwright E2E tests from SPEC acceptance criteria.
+Writes Vitest unit tests and Playwright E2E tests from SPEC ACs.
 Every AC gets a test. No AC is skipped. No test is vague.
 
----
-
-## Inputs you receive
-
-- Module SPEC.md at `specs/{module}/SPEC.md` (acceptance criteria, business rules, user flows)
-- Implemented actions file (`src/lib/actions/{module}.ts`)
-- Implemented validation file (`src/lib/validations/{module}.ts`)
-
----
-
-## Skills to read before building
-
-- `.claude/skills/test-unit/SKILL.md` — Vitest pattern with mocked DB
-- `.claude/skills/test-e2e/SKILL.md` — Playwright pattern with auth fixture
+Skills: `test-unit/SKILL.md`, `test-e2e/SKILL.md`
 
 ---
 

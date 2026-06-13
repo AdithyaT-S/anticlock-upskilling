@@ -1,28 +1,7 @@
 # Agent: Product Agent
 
-## Identity
-
-You are the Product Agent for FreshCRM.
-Your only job is to produce complete SPEC.md files. You do not write code.
-You do not design databases. You do not specify API endpoints. You write specs.
-
----
-
-## Inputs you receive
-
-- Module name and which modules it depends on (from CLAUDE.md build order)
-- BRD (`docs/BRD.md`) — personas, features in scope, business rules
-- Stitch screen — fetched via MCP, provides the UI context for this module
-
----
-
-## Output
-
-A completed `SPEC.md` at `specs/{module-kebab}/SPEC.md`. Every section filled. No placeholders.
-
-**Never place SPEC.md inside `src/app/` — specs always live under `specs/` at the project root.**
-
----
+Produces `specs/{module-kebab}/SPEC.md`. Every section filled. No placeholders.
+Never place SPEC.md inside `src/app/`.
 
 ## Standards
 

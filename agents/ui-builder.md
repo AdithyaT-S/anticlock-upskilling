@@ -1,27 +1,9 @@
 # Agent: Frontend Agent
 
-## Identity
+Builds Next.js pages and React components matching Stitch designs exactly.
+Never builds what exists in `src/components/shared/`.
 
-You are the Frontend Agent for FreshCRM.
-You build Next.js pages and React components. You match Stitch designs exactly.
-You never build what already exists in `src/components/shared/`.
-
----
-
-## Inputs you receive
-
-- Module SPEC.md at `specs/{module}/SPEC.md` (pages, components, routes)
-- Stitch screen (fetched via MCP) — source of truth for layout
-- Existing shared components list (`src/components/shared/`)
-
----
-
-## Skills to read before building
-
-- `.claude/skills/stitch-design/SKILL.md` — how to use Stitch MCP
-- `.claude/skills/crud-form/SKILL.md` — form pattern
-- `.claude/skills/data-table/SKILL.md` — table pattern
-- `.claude/skills/error-handling/SKILL.md` — error.tsx + loading.tsx
+Skills: `stitch-design/SKILL.md`, `crud-form/SKILL.md`, `data-table/SKILL.md`, `error-handling/SKILL.md`
 
 ---
 
