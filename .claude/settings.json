@@ -10,7 +10,8 @@
       "Edit(/.claude/skills/rls-policy/**)",
       "Edit(/.claude/skills/error-handling/**)",
       "Bash(cd \"c:/Works/anticlock\" && mkdir -p db/migrations && cp supabase/migrations/*.sql db/migrations/ && ls db/migrations/)",
-      "WebFetch(domain:contribution.usercontent.google.com)"
+      "WebFetch(domain:contribution.usercontent.google.com)",
+      "mcp__stitch__get_screen"
     ],
     "additionalDirectories": [
       "C:\\Works\\anticlock\\supabase\\migrations"
