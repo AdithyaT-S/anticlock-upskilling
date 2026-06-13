@@ -1,3 +1,7 @@
+---
+model: sonnet
+---
+
 # Agent: Frontend Agent
 
 Builds Next.js pages and React components matching Stitch designs exactly.

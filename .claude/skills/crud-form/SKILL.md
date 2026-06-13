@@ -84,3 +84,33 @@ export function ContactForm({ defaultValues, onSuccess }: ContactFormProps) {
 - Accept `defaultValues` for edit mode — same component handles create and edit
 - Accept `onSuccess` callback — lets parent close a dialog or navigate away
 - Never call server actions outside `onSubmit`
+
+## TypeScript gotchas with zodResolver
+
+**Never use `z.coerce` on numeric fields.** `z.coerce.number()` makes the Zod input type `unknown`, which causes `useForm<T>` + `zodResolver` type mismatches ("Type 'unknown' is not assignable to type 'number'"). Use `z.number()` instead and handle the DOM value in `onChange`:
+```typescript
+// ✅ Correct
+onChange={(e) => field.onChange(isNaN(e.target.valueAsNumber) ? 0 : e.target.valueAsNumber)}
+
+// ❌ Wrong — z.coerce breaks react-hook-form types
+score: z.coerce.number().min(0).max(100)
+```
+
+**Shared field components across create/edit forms.** When create and edit use different schemas (one requires `contact_id`, the other doesn't), define a shared base type and cast once:
+```typescript
+type SharedFields = Omit<CreateInput, 'contact_id'>  // fields common to both
+type SharedForm = UseFormReturn<SharedFields>
+
+// In each typed form, cast once:
+const sharedForm = form as unknown as SharedForm
+
+// Pass to all shared field components without duplication:
+<StatusField form={sharedForm} />
+<ScoreField  form={sharedForm} />
+```
+
+**`ConfirmDialog.onConfirm` requires `() => Promise<void>`.** Make delete handlers `async`:
+```typescript
+async function handleDelete() { ... }  // ✅
+function handleDelete() { ... }        // ❌ Type '() => void' not assignable
+```
