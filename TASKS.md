@@ -73,22 +73,23 @@ Status: ⬜ Todo | 🔄 In Progress | ✅ Done | 🔒 Blocked
 
 ## Layer 4 — Module 2: Layout Shell
 
-**Spec:** ⬜ `/create-spec Layout`
+**Spec:** ✅ `specs/layout/SPEC.md`
 
 | Layer | Task | Status |
 |-------|------|--------|
-| Frontend | `src/app/(dashboard)/layout.tsx` — wraps sidebar + topbar | ⬜ |
-| Frontend | `src/components/layout/Sidebar.tsx` — nav with icons | ⬜ |
-| Frontend | `src/components/layout/TopBar.tsx` — search, notifications, avatar | ⬜ |
-| Frontend | `src/components/layout/MobileNav.tsx` — responsive nav | ⬜ |
-| Frontend | `src/app/(dashboard)/page.tsx` — dashboard home (placeholder) | ⬜ |
-| Tests | Unit tests — Sidebar active states, nav links | ⬜ |
-| Tests | E2E tests — navigation between modules | ⬜ |
+| Frontend | `src/app/(dashboard)/layout.tsx` — wraps sidebar + topbar | ✅ |
+| Frontend | `src/components/layout/Sidebar.tsx` — nav with icons | ✅ |
+| Frontend | `src/components/layout/TopBar.tsx` — search, notifications, avatar | ✅ |
+| Frontend | `src/components/layout/MobileNav.tsx` — responsive nav | ✅ |
+| Frontend | `src/app/(dashboard)/page.tsx` — dashboard home (placeholder) | ✅ |
+| Tests | Unit tests — Sidebar active states, nav links | ✅ |
+| Tests | E2E tests — navigation between modules | ✅ |
 | DevOps | `/commit` + `/create-pr` | ⬜ |
 
 ---
 
 ## Layer 5 — Module 3: Shared Components
+
 
 **Spec:** ⬜ `/create-spec SharedComponents`
 **Stitch screen:** Design System (`asset-stub-assets_0c364825aa6640ddb1dd32c3ab87ab81`)
