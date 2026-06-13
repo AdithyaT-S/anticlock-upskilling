@@ -18,11 +18,13 @@ We are now building the full application on top of that foundation.
 | Phase | Status | File |
 |-------|--------|------|
 | BRD | ✅ Done | `docs/BRD.md` |
-| Figma / Stitch Designs | 🔄 In Progress | `docs/Stitch Instructions.md` |
+| Stitch Designs | ✅ Done | `docs/Stitch Instructions.md` — 8 screens ready |
 | CLAUDE.md | ✅ Done | This file |
-| Skill files (.claude/skills/) | ✅ Done | See Phase 4 below |
-| SPEC.md per module | ⬜ Todo | Created before each module |
-| Module build loop | ⬜ Todo | Starts after skills done |
+| Skill files | ✅ Done | `src/lib/db/index.ts` |
+| Commands | ✅ Done | `.claude/commands/` — 4 commands |
+| Agents | ✅ Done | `agents/` — 4 agents |
+| App scaffold | ⬜ Todo | `npx create-next-app` not yet run |
+| Module build loop | ⬜ Todo | One module at a time: spec → build → test → PR |
 
 ---
 
@@ -54,6 +56,86 @@ We are now building the full application on top of that foundation.
 6. **Read the skill file first** — before writing any new pattern, read the relevant `.claude/skills/` file
 7. **SPEC.md before code** — every module needs a `SPEC.md` before its code starts
 8. **Tests in same session** — unit + E2E tests are written in the same session as the feature
+9. **Stitch before UI** — always fetch the Stitch screen via MCP before writing any page or component
+
+---
+
+## Commands — Use These For Every Module
+
+| Command | When to use |
+|---------|------------|
+| `/create-spec {Module}` | Before building — generates SPEC.md from Stitch + BRD |
+| `/implement-module {Module}` | After spec is reviewed — builds validation + actions + pages |
+| `/generate-tests {Module}` | After implementation — writes unit + E2E tests from SPEC ACs |
+| `/review-module {Module}` | After tests — checks code vs SPEC, reports issues |
+| `/commit` | After review passes — conventional commit message |
+| `/create-pr` | After commit — opens GitHub PR with full description |
+| `/pr-review <N>` | Automated — AI reviews PR inline |
+| `/fix-pr-comments` | After AI review — auto-fixes open threads |
+
+Command definitions: `.claude/commands/`
+
+---
+
+## Agents — Loaded by Commands Automatically
+
+| Agent | File | Role |
+|-------|------|------|
+| Spec Writer | `agents/spec-writer.md` | Writes SPEC.md — user stories, ACs, permissions |
+| UI Builder | `agents/ui-builder.md` | Builds pages + components matching Stitch screen |
+| Actions Builder | `agents/actions-builder.md` | Builds Zod schemas + server actions |
+| Test Writer | `agents/test-writer.md` | Writes Vitest + Playwright tests from ACs |
+
+---
+
+## Module Build Workflow (One Module At A Time)
+
+```
+/create-spec {Module}
+    ↓ review SPEC.md
+/implement-module {Module}
+    ↓
+/generate-tests {Module}
+    ↓
+/review-module {Module}
+    ↓ fix any issues
+/commit
+    ↓
+/create-pr
+    ↓ AI review + human approval → auto-merge
+```
+
+**Never spec all modules upfront.** Each module's spec depends on what was built before it.
+Spec + build one module at a time in this order:
+
+1. Auth
+2. Layout shell (Sidebar, TopBar, dashboard layout)
+3. Shared components (all of src/components/shared/)
+4. Contacts
+5. Leads
+6. Deals + Kanban (multiple pipelines — pipeline selector on Kanban page)
+7. Tickets
+8. Activities
+9. Email (Resend send + inbound webhook)
+10. Reports
+11. Settings
+
+---
+
+## Skill Files — Read Before Writing Each Pattern
+
+| Skill | When to read |
+|-------|-------------|
+| `.claude/skills/db-provider/SKILL.md` | Any DB query or server action |
+| `.claude/skills/supabase-query/SKILL.md` | DB reads in server components |
+| `.claude/skills/server-action/SKILL.md` | Any mutation (create/update/delete) |
+| `.claude/skills/crud-form/SKILL.md` | Any create or edit form |
+| `.claude/skills/data-table/SKILL.md` | Any list/table page |
+| `.claude/skills/test-unit/SKILL.md` | Writing Vitest unit tests |
+| `.claude/skills/test-e2e/SKILL.md` | Writing Playwright E2E tests |
+| `.claude/skills/rls-policy/SKILL.md` | Any new DB table or migration |
+| `.claude/skills/error-handling/SKILL.md` | Error boundaries and action return types |
+| `.claude/skills/stitch-design/SKILL.md` | Fetch Stitch screen before building any UI |
 
 ---
 
@@ -110,60 +192,11 @@ src/
 
 ---
 
-## Skill Files — Read Before Writing Each Pattern
-
-| Skill | When to read |
-|-------|-------------|
-| `.claude/skills/db-provider/SKILL.md` | Any DB query or server action |
-| `.claude/skills/supabase-query.md` | DB reads in server components |
-| `.claude/skills/server-action.md` | Any mutation (create/update/delete) |
-| `.claude/skills/crud-form.md` | Any create or edit form |
-| `.claude/skills/data-table.md` | Any list/table page |
-| `.claude/skills/test-unit.md` | Writing Vitest tests |
-| `.claude/skills/test-e2e.md` | Writing Playwright tests |
-| `.claude/skills/rls-policy.md` | Any new DB table or migration |
-| `.claude/skills/error-handling.md` | Error boundaries and action return types |
-
----
-
-## Module Build Order
-
-Build strictly in this order — each depends on the previous:
-
-1. Auth (login, signup, middleware, getAuthUser helper)
-2. Layout shell (Sidebar, TopBar, dashboard layout)
-3. Shared components (all of src/components/shared/)
-4. Contacts
-5. Leads
-6. Deals + Kanban (multiple pipelines — pipeline selector on Kanban page)
-7. Tickets
-8. Activities
-9. Email (Resend send + inbound webhook)
-10. Reports
-11. Settings
-
----
-
-## Per-Module Build Sequence
-
-For each module above, always follow this exact sequence:
-1. Read this file (CLAUDE.md)
-2. Read the module SPEC.md (`src/app/(dashboard)/<module>/SPEC.md`)
-3. Read relevant skill files
-4. Check `src/components/shared/` — reuse what exists
-5. Generate `src/lib/validations/<module>.ts` (Zod schema)
-6. Generate `src/lib/actions/<module>.ts` (server actions)
-7. Generate pages referencing Stitch/Figma design
-8. Generate unit tests (Vitest)
-9. Generate E2E tests (Playwright)
-10. Run `npx vitest run && npx playwright test` — all must pass
-
----
-
 ## Design Reference
 
 Stitch project: "Indigo B2B CRM Dashboard" (ID: `10851584638320860726`)
-Screen IDs: see `docs/Stitch Instructions.md`
+MCP config: `.mcp.json` → `https://stitch.googleapis.com/mcp`
+Screen IDs: see `docs/Stitch Instructions.md` and `.claude/skills/stitch-design/SKILL.md`
 All screens use: Indigo #4F46E5, Inter font, white surfaces, gray-50 background
 
 ---
@@ -173,7 +206,7 @@ All screens use: Indigo #4F46E5, Inter font, white surfaces, gray-50 background
 - **Multiple pipelines**: Supported in v1 — pipeline selector dropdown on Deals page
 - **CSV import**: Server-side parsing
 - **Free plan limits**: 500 contacts, 3 users, 100 deals, 500 emails/month
-- **DB provider**: Supabase Cloud (production), Docker local (dev)
+- **DB provider**: Docker local (dev) → Supabase Cloud / AWS RDS (production)
 - **Region**: ap-south-1
 
 ---
@@ -181,18 +214,11 @@ All screens use: Indigo #4F46E5, Inter font, white surfaces, gray-50 background
 ## MCP Servers (project-level)
 
 Config: `.mcp.json`
-- `stitch` → `https://stitch.googleapis.com/mcp` (design assets)
+- `stitch` → `https://stitch.googleapis.com/mcp` (design assets — API key in .mcp.json, gitignored)
 
 ---
 
-## DevOps Workflow
-
-```
-/commit           → stage + conventional commit message
-/create-pr        → push + open GitHub PR
-/pr-review <N>    → AI reviews PR, posts inline comments
-/fix-pr-comments  → auto-fix all open review threads
-```
+## DevOps
 
 CI runs on every PR: typecheck → lint → unit tests (80% coverage) → build → E2E
 Auto-merge: squash when ≥1 human approval + all checks green
